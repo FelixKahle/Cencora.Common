@@ -2,6 +2,7 @@
 //
 // Written by Felix Kahle, A123234, felix.kahle@worldcourier.de
 
+using System.Globalization;
 using System.Text.Json.Serialization;
 
 namespace Cencora.Common.Core
@@ -15,13 +16,13 @@ namespace Cencora.Common.Core
         /// Gets or sets the start of the range.
         /// </summary>
         [JsonInclude]
-        public DateTime Start { get; set; }
+        public DateTimeOffset Start { get; set; }
 
         /// <summary>
         /// Gets or sets the end of the range.
         /// </summary>
         [JsonInclude]
-        public DateTime End { get; set; }
+        public DateTimeOffset End { get; set; }
 
         /// <summary>
         /// Gets a value indicating whether the range is a single point in time.
@@ -40,8 +41,8 @@ namespace Cencora.Common.Core
         /// </summary>
         public DateTimeRange()
         {
-            Start = DateTime.MinValue;
-            End = DateTime.MaxValue;
+            Start = DateTimeOffset.MinValue;
+            End = DateTimeOffset.MaxValue;
         }
 
         /// <summary>
@@ -50,7 +51,7 @@ namespace Cencora.Common.Core
         /// <param name="start">The start of the range.</param>
         /// <param name="end">The end of the range.</param>
         /// <exception cref="ArgumentException">Thrown when the start is after the end.</exception>
-        public DateTimeRange(DateTime start, DateTime end)
+        public DateTimeRange(DateTimeOffset start, DateTimeOffset end)
         {
             if (start > end)
             {
@@ -78,6 +79,43 @@ namespace Cencora.Common.Core
             return HashCode.Combine(Start, End);
         }
 
+        /// <inheritdoc/>
+        public override string ToString()
+        {
+            return $"{Start.ToString(CultureInfo.InvariantCulture)} - {End.ToString(CultureInfo.InvariantCulture)}";
+        }
+
+        /// <summary>
+        /// Determines whether the range overlaps with another range.
+        /// </summary>
+        /// <param name="other">The other range.</param>
+        /// <param name="minimumOverlap">The minimum overlap required for the ranges to be considered overlapping.</param>
+        /// <returns><c>true</c> if the other range overlaps with this range; otherwise, <c>false</c>.</returns>
+        public bool Overlaps(DateTimeRange other, TimeSpan minimumOverlap)
+        {
+            return Overlaps(this, other, minimumOverlap);
+        }
+
+        /// <summary>
+        /// Determines whether the range overlaps with another range.
+        /// </summary>
+        /// <param name="other">The other range.</param>
+        /// <returns><c>true</c> if the other range overlaps with this range; otherwise, <c>false</c>.</returns>
+        public bool Overlaps(DateTimeRange other)
+        {
+            return Overlaps(this, other, TimeSpan.Zero);
+        }
+
+        /// <summary>
+        /// Determines whether a <see cref="DateTimeOffset"/> value is contained within a <see cref="DateTimeRange"/>.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <returns><c>true</c> if the value is contained within the range; otherwise, <c>false</c>.</returns>
+        public bool Contains(DateTimeOffset value)
+        {
+            return Contains(this, value);
+        }
+
         public static bool operator ==(DateTimeRange left, DateTimeRange right)
         {
             return left.Equals(right);
@@ -86,6 +124,57 @@ namespace Cencora.Common.Core
         public static bool operator !=(DateTimeRange left, DateTimeRange right)
         {
             return !left.Equals(right);
+        }
+
+        /// <summary>
+        /// Determines whether a <see cref="DateTimeRange"/> value is contained within a <see cref="DateTimeRange"/>.
+        /// </summary>
+        /// <param name="range">The range.</param>
+        /// <param name="value">The value.</param>
+        /// <returns><c>true</c> if the value is contained within the range; otherwise, <c>false</c>.</returns>
+        public static bool Contains(DateTimeRange range, DateTime value)
+        {
+            return range.Start <= value && range.End >= value;
+        }
+
+        /// <summary>
+        /// Determines whether a <see cref="DateTime"/> value is contained within a <see cref="DateTimeRange"/>.
+        /// </summary>
+        /// <param name="range">The range.</param>
+        /// <param name="value">The value.</param>
+        /// <returns><c>true</c> if the value is contained within the range; otherwise, <c>false</c>.</returns>
+        public static bool Contains(DateTimeRange range, DateTimeOffset value)
+        {
+            return range.Start <= value && range.End >= value;
+        }
+
+        /// <summary>
+        /// Determines whether two <see cref="DateTimeRange"/> instances overlap.
+        /// </summary>
+        /// <param name="firstRange">The first range.</param>
+        /// <param name="secondRange">The second range.</param>
+        /// <returns><c>true</c> if the ranges overlap; otherwise, <c>false</c>.</returns>
+        public static bool Overlaps(DateTimeRange firstRange, DateTimeRange secondRange, TimeSpan minimumOverlap)
+        {
+            // Calculate the actual overlap duration
+            DateTimeOffset overlapStart = firstRange.Start > secondRange.Start ? firstRange.Start : secondRange.Start;
+            DateTimeOffset overlapEnd = firstRange.End < secondRange.End ? firstRange.End : secondRange.End;
+
+            TimeSpan actualOverlapDuration = overlapEnd - overlapStart;
+
+            // Check if there is an overlap and if the overlap duration is at least the minimum required duration
+            return overlapStart < overlapEnd && actualOverlapDuration >= minimumOverlap;
+        }
+
+        /// <summary>
+        /// Determines whether two <see cref="DateTimeRange"/> instances overlap.
+        /// </summary>
+        /// <param name="firstRange">The first range.</param>
+        /// <param name="secondRange">The second range.</param>
+        /// <returns><c>true</c> if the ranges overlap; otherwise, <c>false</c>.</returns>
+        public static bool Overlaps(DateTimeRange firstRange, DateTimeRange secondRange)
+        {
+            return Overlaps(firstRange, secondRange, TimeSpan.Zero);
         }
     }
 }

@@ -187,7 +187,7 @@ namespace Cencora.Common.Core.Tests
 
 
         [Fact]
-        public void Distance_SerializeAndDeserialize_Correctly()
+        public void Distance_JSON_SerializeAndDeserialize_Correctly()
         {
             var distance = new Distance(2, DistanceUnit.Meters);
 
