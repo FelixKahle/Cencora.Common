@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Cencora.Common.Core\Cencora.Common.Core.csproj" />
+  </ItemGroup>
+
 </Project>
