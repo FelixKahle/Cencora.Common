@@ -187,18 +187,6 @@ namespace Cencora.Common.Core
             return $"{StreetAddress}, {AddressLine2}, {City}, {PostalCode}, {StateOrProvince}, {Country}";
         }
 
-        /// <summary>
-        /// Returns a string that represents the address in a format that can be used in a query string for a map service.
-        /// </summary>
-        /// <returns>A string that represents the address in a format that can be used in a query string for a map service.</returns>
-        public string MapsQueryString()
-        {
-            // For whatever reason, the postal code in the query string should not contain the dash, if searched for in Azure Maps.
-            // We remove the dash here. I do not know if this is also the case for other map services.
-            var parts = new[] { StreetAddress, AddressLine2, City, PostalCode.Replace("-", string.Empty), StateOrProvince, Country };
-            return string.Join(", ", parts.Where(p => !string.IsNullOrEmpty(p)));
-        }
-
         public static bool operator ==(Address left, Address right)
         {
             return left.Equals(right);

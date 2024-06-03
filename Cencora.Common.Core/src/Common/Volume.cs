@@ -73,6 +73,14 @@ namespace Cencora.Common.Core
         private double _cubicMeters;
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="Volume"/> class with a value of 0 cubic meters.
+        /// </summary>
+        public Volume()
+        {
+            _cubicMeters = 0;
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="Volume"/> class.
         /// </summary>
         /// <param name="value">The value of the volume.</param>

@@ -478,6 +478,20 @@ namespace Cencora.Common
             );
         }
 
+        /// <summary>
+        /// Unwraps the payload of the current <see cref="ApiResponse{T}"/>.
+        /// </summary>
+        /// <returns>The payload of the current <see cref="ApiResponse{T}"/>.</returns>
+        /// <exception cref="InvalidOperationException">The payload is <c>null</c>.</exception>
+        public T Unwrap()
+        {
+            if (_payload == null)
+            {
+                throw new InvalidOperationException("The payload is null.");
+            }
+            return _payload;
+        }
+
         /// <inheritdoc/>
         public bool Equals(ApiResponse<T> other)
         {
