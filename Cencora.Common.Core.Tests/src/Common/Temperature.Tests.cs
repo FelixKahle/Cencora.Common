@@ -38,6 +38,20 @@ namespace Cencora.Common.Core.Tests
         }
 
         [Fact]
+        public void Temperature_Celsius_ReturnsCorrectValue()
+        {
+            var temperature = new Temperature(2, TemperatureUnit.Celsius);
+            Assert.Equal(2, temperature.Celsius);
+        }
+
+        [Fact]
+        public void Temperature_Kelvin_ReturnsCorrectValue()
+        {
+            var temperature = new Temperature(2, TemperatureUnit.Celsius);
+            Assert.Equal(275.15, temperature.Kelvin, 0.005);
+        }
+
+        [Fact]
         public void Temperature_Equals_ReturnsTrue_IfAllPropertiesAreEqual()
         {
             var temperature1 = new Temperature(2, TemperatureUnit.Celsius);

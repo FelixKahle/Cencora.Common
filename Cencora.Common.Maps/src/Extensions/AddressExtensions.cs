@@ -21,7 +21,7 @@ namespace Cencora.Common.Maps
             // We remove the dash here. I do not know if this is also the case for other map services.
             var parts = new[] 
             { 
-                address.StreetAddress, 
+                address.AddressLine, 
                 address.AddressLine2, 
                 address.City, 
                 address.PostalCode.Replace("-", string.Empty), 

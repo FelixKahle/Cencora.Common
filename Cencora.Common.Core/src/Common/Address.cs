@@ -12,10 +12,10 @@ namespace Cencora.Common.Core
     public struct Address : IEquatable<Address>
     {
         /// <summary>
-        /// The street address.
+        /// The address line.
         /// </summary>
         [JsonIgnore]
-        private string _streetAddress;
+        private string _addressLine;
 
         /// <summary>
         /// The address line 2.
@@ -54,10 +54,10 @@ namespace Cencora.Common.Core
         /// This property is never null. If the value is null, it is converted to an empty string.
         /// </remarks>
         [JsonInclude]
-        public string StreetAddress
+        public string AddressLine
         {
-            get => _streetAddress;
-            set => _streetAddress = value ?? string.Empty;
+            get => _addressLine;
+            set => _addressLine = value ?? string.Empty;
         }
 
         /// <summary>
@@ -130,7 +130,7 @@ namespace Cencora.Common.Core
         /// </summary>
         public Address()
         {
-            _streetAddress = string.Empty;
+            _addressLine = string.Empty;
             _addressLine2 = string.Empty;
             _city = string.Empty;
             _postalCode = string.Empty;
@@ -141,16 +141,16 @@ namespace Cencora.Common.Core
         /// <summary>
         /// Initializes a new instance of the <see cref="Address"/> struct.
         /// </summary>
-        /// <param name="streetAddress">The street address.</param>
+        /// <param name="addressLine">The street address.</param>
         /// <param name="addressLine2">The address line 2.</param>
         /// <param name="city">The city.</param>
         /// <param name="postalCode">The postal code.</param>
         /// <param name="stateOrProvince">The state or province.</param>
         /// <param name="country">The country.</param>
         [JsonConstructor]
-        public Address(string streetAddress, string addressLine2, string city, string postalCode, string stateOrProvince, string country)
+        public Address(string addressLine, string addressLine2, string city, string postalCode, string stateOrProvince, string country)
         {
-            _streetAddress = streetAddress ?? string.Empty;
+            _addressLine = addressLine ?? string.Empty;
             _addressLine2 = addressLine2 ?? string.Empty;
             _city = city ?? string.Empty;
             _postalCode = postalCode ?? string.Empty;
@@ -161,7 +161,7 @@ namespace Cencora.Common.Core
         /// <inheritdoc/>
         public bool Equals(Address other)
         {
-            return StreetAddress.Equals(other.StreetAddress) &&
+            return AddressLine.Equals(other.AddressLine) &&
                    AddressLine2.Equals(other.AddressLine2) &&
                    City.Equals(other.City) &&
                    PostalCode.Equals(other.PostalCode) &&
@@ -178,13 +178,13 @@ namespace Cencora.Common.Core
         /// <inheritdoc/>
         public override int GetHashCode()
         {
-            return HashCode.Combine(StreetAddress, AddressLine2, City, PostalCode, StateOrProvince, Country);
+            return HashCode.Combine(AddressLine, AddressLine2, City, PostalCode, StateOrProvince, Country);
         }
 
         /// <inheritdoc/>
         public override string ToString()
         {
-            return $"{StreetAddress}, {AddressLine2}, {City}, {PostalCode}, {StateOrProvince}, {Country}";
+            return $"{AddressLine}, {AddressLine2}, {City}, {PostalCode}, {StateOrProvince}, {Country}";
         }
 
         public static bool operator ==(Address left, Address right)

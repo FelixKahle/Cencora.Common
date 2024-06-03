@@ -24,6 +24,16 @@ namespace Cencora.Common.Maps
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GeoCoordinate"/> class.
+        /// Both latitude and longitude are set to 0.
+        /// </summary>
+        public GeoCoordinate()
+        {
+            _latitude = 0;
+            _longitude = 0;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GeoCoordinate"/> class.
         /// </summary>
         /// <param name="latitude">The latitude.</param>
         /// <param name="longitude">The longitude.</param>
@@ -136,10 +146,14 @@ namespace Cencora.Common.Maps
             return new Distance(distance, DistanceUnit.Meters);
         }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Returns a string that represents the current GeoCoordinate.
+        /// For debugging purposes only.
+        /// </summary>
+        /// <returns>A string that represents the current GeoCoordinate.</returns>
         public override string ToString()
         {
-            return Latitude.ToString("G", CultureInfo.InvariantCulture) + ", " + Longitude.ToString("G", CultureInfo.InvariantCulture);
+            return $"Latitude: {Latitude.ToString(CultureInfo.InvariantCulture)}, Longitude: {Longitude.ToString(CultureInfo.InvariantCulture)}";
         }
 
         /// <summary>

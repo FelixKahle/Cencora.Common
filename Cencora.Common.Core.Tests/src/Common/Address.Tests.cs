@@ -20,7 +20,7 @@ namespace Cencora.Common.Core.Tests
         public void Address_Constructor_InitializesCorrectly()
         {
             var address = new Address("Street", "Line2", "City", "12345", "State", "Country");
-            Assert.Equal("Street", address.StreetAddress);
+            Assert.Equal("Street", address.AddressLine);
             Assert.Equal("Line2", address.AddressLine2);
             Assert.Equal("City", address.City);
             Assert.Equal("12345", address.PostalCode);

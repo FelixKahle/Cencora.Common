@@ -51,11 +51,11 @@ namespace Cencora.Common.Core
         {
             return unit.ToLower().Replace(" ", "").Trim() switch
             {
-                "cm³" or "cm3" or "cubiccentimeter" => VolumeUnit.CubicCentimeter,
-                "m³" or "m3" or "cubicmeter" => VolumeUnit.CubicMeter,
-                "ft³" or "ft3" or "cubicfoot" => VolumeUnit.CubicFoot,
-                "l" or "liter" => VolumeUnit.Liter,
-                "gal" or "gallon" => VolumeUnit.Gallon,
+                "cm³" or "cm3" or "cubiccentimeter" or "cubiccentimeters" => VolumeUnit.CubicCentimeter,
+                "m³" or "m3" or "cubicmeter" or "cubicmeters" => VolumeUnit.CubicMeter,
+                "ft³" or "ft3" or "cubicfoot" or "cubicfoots" => VolumeUnit.CubicFoot,
+                "l" or "liter" or "liters" => VolumeUnit.Liter,
+                "gal" or "gallon" or "gallons" => VolumeUnit.Gallon,
                 _ => throw new ArgumentException("Invalid volume unit", nameof(unit))
             };
         }
