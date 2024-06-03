@@ -127,18 +127,7 @@ namespace Cencora.Common.Core
         }
 
         /// <summary>
-        /// Determines whether a <see cref="DateTimeRange"/> value is contained within a <see cref="DateTimeRange"/>.
-        /// </summary>
-        /// <param name="range">The range.</param>
-        /// <param name="value">The value.</param>
-        /// <returns><c>true</c> if the value is contained within the range; otherwise, <c>false</c>.</returns>
-        public static bool Contains(DateTimeRange range, DateTime value)
-        {
-            return range.Start <= value && range.End >= value;
-        }
-
-        /// <summary>
-        /// Determines whether a <see cref="DateTime"/> value is contained within a <see cref="DateTimeRange"/>.
+        /// Determines whether a <see cref="DateTimeOffset"/> value is contained within a <see cref="DateTimeRange"/>.
         /// </summary>
         /// <param name="range">The range.</param>
         /// <param name="value">The value.</param>
