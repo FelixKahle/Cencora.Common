@@ -91,6 +91,17 @@ namespace Cencora.Common.Core
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="Volume"/> class.
+        /// </summary>
+        /// <param name="width">The width of the volume.</param>
+        /// <param name="height">The height of the volume.</param>
+        /// <param name="depth">The depth of the volume.</param>
+        public Volume(Distance width, Distance height, Distance depth)
+        {
+            _cubicMeters = width.Meters * height.Meters * depth.Meters;
+        }
+
+        /// <summary>
         /// Converts the specified value from the given volume unit to cubic meters.
         /// </summary>
         /// <param name="value">The value to convert.</param>
