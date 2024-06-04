@@ -128,6 +128,59 @@ namespace Cencora.Common.Core.Tests
         }
 
         [Fact]
+        public void DateTimeRange_Contains_DateTimeRangeContainsDateTimeRange_ReturnsTrue()
+        {
+            DateTimeRange range1 = new DateTimeRange(new DateTime(2023, 1, 1), new DateTime(2023, 1, 3));
+            DateTimeRange range2 = new DateTimeRange(new DateTime(2023, 1, 2), new DateTime(2023, 1, 3));
+
+            Assert.True(DateTimeRange.Contains(range1, range2));
+            Assert.True(range1.Contains(range2));
+        }
+
+        [Fact]
+        public void DateTimeRange_Contains_DateTimeRangeDoesNotContainDateTimeRange_ReturnsFalse()
+        {
+            DateTimeRange range1 = new DateTimeRange(new DateTime(2023, 1, 1), new DateTime(2023, 1, 3));
+            DateTimeRange range2 = new DateTimeRange(new DateTime(2023, 1, 2), new DateTime(2023, 1, 4));
+
+            Assert.False(DateTimeRange.Contains(range1, range2));
+            Assert.False(range1.Contains(range2));
+        }
+
+        [Fact]
+        public void DateTimeRange_Contains_DateTimeRangeIsSame_ReturnsTrue()
+        {
+            DateTimeRange range1 = new DateTimeRange(new DateTime(2023, 1, 1), new DateTime(2023, 1, 3));
+            DateTimeRange range2 = new DateTimeRange(new DateTime(2023, 1, 1), new DateTime(2023, 1, 3));
+
+            Assert.True(DateTimeRange.Contains(range1, range2));
+            Assert.True(range1.Contains(range2));
+        }
+
+        [Fact]
+        public void DateTimeRange_Intersection_RangesDoNotOverlap_ReturnsNull()
+        {
+            DateTimeRange range1 = new DateTimeRange(new DateTime(2023, 1, 1), new DateTime(2023, 1, 3));
+            DateTimeRange range2 = new DateTimeRange(new DateTime(2023, 1, 4), new DateTime(2023, 1, 6));
+
+            Assert.Null(DateTimeRange.Intersection(range1, range2));
+            Assert.Null(range1.Intersection(range2));
+        }
+
+        [Fact]
+        public void DateTimeRange_Intersection_RangesOverlap_ReturnsCorrectly()
+        {
+            DateTimeRange range1 = new DateTimeRange(new DateTime(2023, 1, 1), new DateTime(2023, 1, 3));
+            DateTimeRange range2 = new DateTimeRange(new DateTime(2023, 1, 2), new DateTime(2023, 1, 4));
+
+            DateTimeRange? intersection = DateTimeRange.Intersection(range1, range2);
+            Assert.NotNull(intersection);
+
+            Assert.Equal(new DateTime(2023, 1, 2), intersection?.Start);
+            Assert.Equal(new DateTime(2023, 1, 3), intersection?.End);
+        }
+
+        [Fact]
         public void DateTimeRange_JSON_SerializeAndDeserialize_Correctly()
         {
             var range = new DateTimeRange(new DateTime(2023, 1, 1), new DateTime(2023, 1, 3));

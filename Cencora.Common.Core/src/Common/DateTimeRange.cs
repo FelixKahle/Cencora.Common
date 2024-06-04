@@ -116,6 +116,37 @@ namespace Cencora.Common.Core
             return Contains(this, value);
         }
 
+        /// <summary>
+        /// Determines whether a <see cref="DateTimeRange"/> is contained within another <see cref="DateTimeRange"/>.
+        /// </summary>
+        /// <param name="other">The other range.</param>
+        /// <returns><c>true</c> if the other range is contained within the range; otherwise, <c>false</c>.</returns>
+        public bool Contains(DateTimeRange other)
+        {
+            return Contains(this, other);
+        }
+
+        /// <summary>
+        /// Calculates the intersection of two <see cref="DateTimeRange"/> instances.
+        /// </summary>
+        /// <param name="other">The other range.</param>
+        /// <param name="minimumOverlap">The minimum overlap required for the ranges to be considered overlapping.</param>
+        /// <returns>The intersection of the two ranges, or <c>null</c> if the ranges do not overlap.</returns>
+        public DateTimeRange? Intersection(DateTimeRange other, TimeSpan minimumOverlap)
+        {
+            return Intersection(this, other, minimumOverlap);
+        }
+
+        /// <summary>
+        /// Calculates the intersection of two <see cref="DateTimeRange"/> instances.
+        /// </summary>
+        /// <param name="other">The other range.</param>
+        /// <returns>The intersection of the two ranges, or <c>null</c> if the ranges do not overlap.</returns>
+        public DateTimeRange? Intersection(DateTimeRange other)
+        {
+            return Intersection(this, other, TimeSpan.Zero);
+        }
+
         public static bool operator ==(DateTimeRange left, DateTimeRange right)
         {
             return left.Equals(right);
@@ -135,6 +166,17 @@ namespace Cencora.Common.Core
         public static bool Contains(DateTimeRange range, DateTimeOffset value)
         {
             return range.Start <= value && range.End >= value;
+        }
+
+        /// <summary>
+        /// Determines whether a <see cref="DateTimeRange"/> is contained within another <see cref="DateTimeRange"/>.
+        /// </summary>
+        /// <param name="range">The range.</param>
+        /// <param name="other">The other range.</param>
+        /// <returns><c>true</c> if the other range is contained within the range; otherwise, <c>false</c>.</returns>
+        public static bool Contains(DateTimeRange range, DateTimeRange other)
+        {
+            return range.Start <= other.Start && range.End >= other.End;
         }
 
         /// <summary>
@@ -164,6 +206,37 @@ namespace Cencora.Common.Core
         public static bool Overlaps(DateTimeRange firstRange, DateTimeRange secondRange)
         {
             return Overlaps(firstRange, secondRange, TimeSpan.Zero);
+        }
+
+        /// <summary>
+        /// Calculates the intersection of two <see cref="DateTimeRange"/> instances.
+        /// </summary>
+        /// <param name="firstRange">The first range.</param>
+        /// <param name="secondRange">The second range.</param>
+        /// <param name="minimumOverlap">The minimum overlap required for the ranges to be considered overlapping.</param>
+        /// <returns>The intersection of the two ranges, or <c>null</c> if the ranges do not overlap.</returns>
+        public static DateTimeRange? Intersection(DateTimeRange firstRange, DateTimeRange secondRange, TimeSpan minimumOverlap)
+        {
+            if (!Overlaps(firstRange, secondRange, minimumOverlap))
+            {
+                return null;
+            }
+
+            DateTimeOffset overlapStart = firstRange.Start > secondRange.Start ? firstRange.Start : secondRange.Start;
+            DateTimeOffset overlapEnd = firstRange.End < secondRange.End ? firstRange.End : secondRange.End;
+
+            return new DateTimeRange(overlapStart, overlapEnd);
+        }
+
+        /// <summary>
+        /// Calculates the intersection of two <see cref="DateTimeRange"/> instances.
+        /// </summary>
+        /// <param name="firstRange">The first range.</param>
+        /// <param name="secondRange">The second range.</param>
+        /// <returns>The intersection of the two ranges, or <c>null</c> if the ranges do not overlap.</returns>
+        public static DateTimeRange? Intersection(DateTimeRange firstRange, DateTimeRange secondRange)
+        {
+            return Intersection(firstRange, secondRange, TimeSpan.Zero);
         }
     }
 }

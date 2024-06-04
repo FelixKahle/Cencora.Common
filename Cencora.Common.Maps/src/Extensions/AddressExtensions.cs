@@ -17,16 +17,20 @@ namespace Cencora.Common.Maps
         /// <returns>A string that represents the address in a format that can be used in a query string for a map service.</returns>
         public static string MapsQueryString(this Address address)
         {
+            // Normalize the address to ensure that it is in a consistent format.
+            // This will convert the address to uppercase.
+            Address normalizedAddress = address.Normalize();
+
             // For whatever reason, the postal code in the query string should not contain the dash, if searched for in Azure Maps.
             // We remove the dash here. I do not know if this is also the case for other map services.
             var parts = new[] 
             { 
-                address.AddressLine, 
-                address.AddressLine2, 
-                address.City, 
-                address.PostalCode.Replace("-", string.Empty), 
-                address.StateOrProvince, 
-                address.Country 
+                normalizedAddress.AddressLine, 
+                normalizedAddress.AddressLine2, 
+                normalizedAddress.City, 
+                normalizedAddress.PostalCode.Replace("-", string.Empty), 
+                normalizedAddress.StateOrProvince, 
+                normalizedAddress.Country 
             };
             return string.Join(", ", parts.Where(p => !string.IsNullOrEmpty(p)));
         }

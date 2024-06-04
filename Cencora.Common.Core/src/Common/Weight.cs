@@ -64,7 +64,7 @@ namespace Cencora.Common.Core
         /// <exception cref="ArgumentException">Thrown if the string is not a valid weight unit.</exception>
         public static WeightUnit FromString(string unit)
         {
-            return unit.ToLower().Trim() switch
+            return unit.ToLower().Replace(" ", "").Trim() switch
             {
                 "µg" or "micrograms" or "microgram" => WeightUnit.Micrograms,
                 "mg" or "milligrams" or "milligram" => WeightUnit.Milligrams,
