@@ -7,15 +7,18 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Cencora.Common.Core.Swagger
 {
-    public class WeightSchema : ISchemaFilter
+    public class VolumeSchemaFilter : ISchemaFilter
     {
         public void Apply(OpenApiSchema schema, SchemaFilterContext context)
         {
-            if (context.Type == typeof(Weight))
+            if (context.Type == typeof(Volume))
             {
                 schema.Type = "object";
-                schema.Properties.Add("value", new OpenApiSchema { Type = "number", Format = "double" });
-                schema.Properties.Add("unit", new OpenApiSchema { Type = "string" });
+                schema.Properties = new Dictionary<string, OpenApiSchema>
+                {
+                    { "value", new OpenApiSchema { Type = "number", Format = "double" } },
+                    { "unit", new OpenApiSchema { Type = "string" } }
+                };
             }
         }
     }
