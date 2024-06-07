@@ -7,7 +7,7 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Cencora.Common.Core.Swagger
 {
-    public class TemperatureSchema : ISchemaFilter
+    public class TemperatureSchemaFilter : ISchemaFilter
     {
         public void Apply(OpenApiSchema schema, SchemaFilterContext context)
         {
