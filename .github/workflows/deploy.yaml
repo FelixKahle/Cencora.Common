@@ -57,14 +57,20 @@ jobs:
       - name: Pack
         run: dotnet pack --no-build --configuration Release
 
-      - name: Create Cencora.Common NuGet package
+      - name: Create Cencora.Common.Core NuGet package
         run: dotnet pack --configuration Release Cencora.Common.Core/Cencora.Common.Core.csproj
 
-      - name: Create Cencora.Maps NuGet package
+      - name: Create Cencora.Common.Core.Swagger NuGet package
+        run: dotnet pack --configuration Release Cencora.Common.Core.Swagger/Cencora.Common.Core.Swagger.csproj
+
+      - name: Create Cencora.Common.Maps NuGet package
         run: dotnet pack --configuration Release Cencora.Common.Maps/Cencora.Common.Maps.csproj
 
-      - name: Publish Cencora.Common NuGet package
+      - name: Publish Cencora.Common.Core NuGet package
         run: dotnet nuget push Cencora.Common.Core/bin/Release/*.nupkg --no-symbols --api-key ${{secrets.GITHUB_TOKEN}} --source https://nuget.pkg.github.com/${{github.repository_owner}}/index.json
 
-      - name: Publish Cencora.Maps NuGet package
+      - name: Publish Cencora.Common.Swagger NuGet package
+        run: dotnet nuget push Cencora.Common.Core.Swagger/bin/Release/*.nupkg --no-symbols --api-key ${{secrets.GITHUB_TOKEN}} --source https://nuget.pkg.github.com/${{github.repository_owner}}/index.json
+
+      - name: Publish Cencora.Common.Maps NuGet package
         run: dotnet nuget push Cencora.Common.Maps/bin/Release/*.nupkg --no-symbols --api-key ${{secrets.GITHUB_TOKEN}} --source https://nuget.pkg.github.com/${{github.repository_owner}}/index.json

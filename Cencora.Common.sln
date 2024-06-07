@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cencora.Common.Core.Tests",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cencora.Common.Maps", "Cencora.Common.Maps\Cencora.Common.Maps.csproj", "{680275CC-62FA-454A-88BE-877CD0DCDBA3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cencora.Common.Maps.Tests", "Cencora.Common.Maps.Tests\Cencora.Common.Maps.Tests.csproj", "{DBDDBFC0-E9E7-45F9-B69D-88A104200CFE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cencora.Common.Maps.Tests", "Cencora.Common.Maps.Tests\Cencora.Common.Maps.Tests.csproj", "{DBDDBFC0-E9E7-45F9-B69D-88A104200CFE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cencora.Common.Core.Swagger", "Cencora.Common.Core.Swagger\Cencora.Common.Core.Swagger.csproj", "{E28F7170-CC59-4F72-A664-7F547B200D4E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{DBDDBFC0-E9E7-45F9-B69D-88A104200CFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DBDDBFC0-E9E7-45F9-B69D-88A104200CFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DBDDBFC0-E9E7-45F9-B69D-88A104200CFE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E28F7170-CC59-4F72-A664-7F547B200D4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E28F7170-CC59-4F72-A664-7F547B200D4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E28F7170-CC59-4F72-A664-7F547B200D4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E28F7170-CC59-4F72-A664-7F547B200D4E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
