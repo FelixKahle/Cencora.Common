@@ -14,8 +14,11 @@ namespace Cencora.Common.Core.Swagger
             if (context.Type == typeof(Weight))
             {
                 schema.Type = "object";
-                schema.Properties.Add("value", new OpenApiSchema { Type = "number", Format = "double" });
-                schema.Properties.Add("unit", new OpenApiSchema { Type = "string" });
+                schema.Properties = new Dictionary<string, OpenApiSchema>
+                {
+                    { "value", new OpenApiSchema { Type = "number", Format = "double" } },
+                    { "unit", new OpenApiSchema { Type = "string" } }
+                };
             }
         }
     }
