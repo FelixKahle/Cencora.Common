@@ -21,7 +21,11 @@ namespace Cencora.Common.Core.Tests
             var start = new DateTime(2024, 1, 1);
             var end = new DateTime(2024, 1, 2);
 
-            var dateTimeRange = new DateTimeRange(start, end);
+            var dateTimeRange = new DateTimeRange
+            {
+                Start = start,
+                End = end
+            };
 
             Assert.Equal(start, dateTimeRange.Start);
             Assert.Equal(end, dateTimeRange.End);

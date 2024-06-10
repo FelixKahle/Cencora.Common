@@ -92,6 +92,10 @@ namespace Cencora.Common.Core
         /// </summary>
         public static readonly Temperature Min = new Temperature(0, TemperatureUnit.Kelvin);
 
+        public static Temperature FromCelsius(double value) => new Temperature(value, TemperatureUnit.Celsius);
+        public static Temperature FromFahrenheit(double value) => new Temperature(value, TemperatureUnit.Fahrenheit);
+        public static Temperature FromKelvin(double value) => new Temperature(value, TemperatureUnit.Kelvin);
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Temperature"/> struct with a value of 0 Kelvin.
         /// </summary>
