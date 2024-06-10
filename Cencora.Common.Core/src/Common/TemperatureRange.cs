@@ -29,13 +29,15 @@ namespace Cencora.Common.Core
         [JsonIgnore]
         public bool IsSingleTemperature => Min == Max;
 
+        public static readonly TemperatureRange Default = new TemperatureRange { Min = Temperature.MinValue, Max = Temperature.MaxValue };
+
         /// <summary>
         /// Initializes a new instance of the <see cref="TemperatureRange"/> struct.
         /// </summary>
         public TemperatureRange()
         {
-            Min = Temperature.Min;
-            Max = Temperature.Min;
+            Min = Temperature.MinValue;
+            Max = Temperature.MaxValue;
         }
 
         /// <summary>

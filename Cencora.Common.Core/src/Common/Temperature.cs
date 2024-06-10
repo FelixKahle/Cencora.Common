@@ -87,10 +87,8 @@ namespace Cencora.Common.Core
         /// </summary>
         private double _kelvinValue;
 
-        /// <summary>
-        /// Represents the minimum possible temperature value (0 Kelvin).
-        /// </summary>
-        public static readonly Temperature Min = new Temperature(0, TemperatureUnit.Kelvin);
+        public static readonly Temperature MinValue = new Temperature(0, TemperatureUnit.Kelvin);
+        public static readonly Temperature MaxValue = new Temperature(double.MaxValue, TemperatureUnit.Kelvin);
 
         public static Temperature FromCelsius(double value) => new Temperature(value, TemperatureUnit.Celsius);
         public static Temperature FromFahrenheit(double value) => new Temperature(value, TemperatureUnit.Fahrenheit);

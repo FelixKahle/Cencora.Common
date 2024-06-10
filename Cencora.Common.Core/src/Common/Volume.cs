@@ -106,10 +106,9 @@ namespace Cencora.Common.Core
             _cubicMeters = 0;
         }
 
-        /// <summary>
-        /// A volume with a value of 0 cubic meters.
-        /// </summary>
-        public static readonly Volume Zero = new Volume(0, VolumeUnit.CubicMeter);
+        public static readonly Volume Zero = MinValue;
+        public static readonly Volume MinValue = new Volume(0, VolumeUnit.CubicMeter);
+        public static readonly Volume MaxValue = new Volume(double.MaxValue, VolumeUnit.CubicMeter);
 
         public static Volume FromCubicCentimeters(double value) => new Volume(value, VolumeUnit.CubicCentimeter);
         public static Volume FromCubicMeters(double value) => new Volume(value, VolumeUnit.CubicMeter);

@@ -119,10 +119,9 @@ namespace Cencora.Common.Core
         /// </summary>
         private double _meters;
 
-        /// <summary>
-        /// Gets a <see cref="Distance"/> instance with a value of 0 meters.
-        /// </summary>
         public static Distance Zero => new Distance(0, DistanceUnit.Meter);
+        public static Distance MinValue => new Distance(0, DistanceUnit.Meter);
+        public static Distance MaxValue => new Distance(double.MaxValue, DistanceUnit.Meter);
 
         public static Distance FromMillimeters(double value) => new Distance(value, DistanceUnit.Millimeter);
         public static Distance FromCentimeters(double value) => new Distance(value, DistanceUnit.Centimeter);

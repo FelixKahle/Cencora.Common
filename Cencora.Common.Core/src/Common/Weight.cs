@@ -122,10 +122,9 @@ namespace Cencora.Common.Core
         /// </summary>
         private double _grams;
 
-        /// <summary>
-        /// A weight with a value of 0 grams.
-        /// </summary>
-        public static readonly Weight Zero = new Weight(0, WeightUnit.Gram);
+        public static readonly Weight Zero = MinValue;
+        public static readonly Weight MinValue = new Weight(0, WeightUnit.Gram);
+        public static readonly Weight MaxValue = new Weight(double.MaxValue, WeightUnit.Gram);
 
         public static Weight FromMicrograms(double value) => new Weight(value, WeightUnit.Microgram);
         public static Weight FromMilligrams(double value) => new Weight(value, WeightUnit.Milligram);

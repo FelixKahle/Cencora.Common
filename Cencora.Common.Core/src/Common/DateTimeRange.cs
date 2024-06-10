@@ -36,6 +36,8 @@ namespace Cencora.Common.Core
         [JsonInclude]
         public TimeSpan Duration => End - Start;
 
+        public static readonly DateTimeRange Default = new DateTimeRange { Start = DateTimeOffset.MinValue, End = DateTimeOffset.MaxValue };
+
         /// <summary>
         /// Initializes a new instance of the <see cref="DateTimeRange"/> struct.
         /// </summary>
