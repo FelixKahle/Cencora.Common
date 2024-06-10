@@ -269,7 +269,11 @@ namespace Cencora.Common.Core
             DateTimeOffset overlapStart = firstRange.Start > secondRange.Start ? firstRange.Start : secondRange.Start;
             DateTimeOffset overlapEnd = firstRange.End < secondRange.End ? firstRange.End : secondRange.End;
 
-            return new DateTimeRange(overlapStart, overlapEnd);
+            return new DateTimeRange
+            {
+                Start = overlapStart,
+                End = overlapEnd
+            };
         }
 
         /// <summary>

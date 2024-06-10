@@ -124,6 +124,16 @@ namespace Cencora.Common.Core
         /// </summary>
         public static Distance Zero => new Distance(0, DistanceUnit.Meter);
 
+        public static Distance FromMillimeters(double value) => new Distance(value, DistanceUnit.Millimeter);
+        public static Distance FromCentimeters(double value) => new Distance(value, DistanceUnit.Centimeter);
+        public static Distance FromMeters(double value) => new Distance(value, DistanceUnit.Meter);
+        public static Distance FromKilometers(double value) => new Distance(value, DistanceUnit.Kilometer);
+        public static Distance FromInches(double value) => new Distance(value, DistanceUnit.Inch);
+        public static Distance FromFeet(double value) => new Distance(value, DistanceUnit.Foot);
+        public static Distance FromYards(double value) => new Distance(value, DistanceUnit.Yard);
+        public static Distance FromMiles(double value) => new Distance(value, DistanceUnit.Mile);
+        public static Distance FromNauticalMiles(double value) => new Distance(value, DistanceUnit.NauticalMile);
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Distance"/> struct with a default value of 0 meters.
         /// </summary>

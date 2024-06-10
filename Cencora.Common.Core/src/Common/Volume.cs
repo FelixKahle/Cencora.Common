@@ -111,6 +111,13 @@ namespace Cencora.Common.Core
         /// </summary>
         public static readonly Volume Zero = new Volume(0, VolumeUnit.CubicMeter);
 
+        public static Volume FromCubicCentimeters(double value) => new Volume(value, VolumeUnit.CubicCentimeter);
+        public static Volume FromCubicMeters(double value) => new Volume(value, VolumeUnit.CubicMeter);
+        public static Volume FromCubicFeet(double value) => new Volume(value, VolumeUnit.CubicFeet);
+        public static Volume FromLiters(double value) => new Volume(value, VolumeUnit.Liter);
+        public static Volume FromMilliliters(double value) => new Volume(value, VolumeUnit.Milliliter);
+        public static Volume FromGallons(double value) => new Volume(value, VolumeUnit.Gallon);
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Volume"/> class.
         /// </summary>

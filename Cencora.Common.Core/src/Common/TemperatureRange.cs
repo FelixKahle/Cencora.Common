@@ -29,6 +29,32 @@ namespace Cencora.Common.Core
         [JsonIgnore]
         public bool IsSingleTemperature => Min == Max;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TemperatureRange"/> struct.
+        /// </summary>
+        public TemperatureRange()
+        {
+            Min = Temperature.Min;
+            Max = Temperature.Min;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TemperatureRange"/> struct.
+        /// </summary>
+        /// <param name="min">The minimum temperature of the range.</param>
+        /// <param name="max">The maximum temperature of the range.</param>
+        /// <exception cref="ArgumentException">The minimum temperature must be less than or equal to the maximum temperature.</exception>
+        public TemperatureRange(Temperature min, Temperature max)
+        {
+            if (min > max)
+            {
+                throw new ArgumentException("The minimum temperature must be less than or equal to the maximum temperature.", nameof(min));
+            }
+
+            Min = min;
+            Max = max;
+        }
+
         /// <inheritdoc/>
         public bool Equals(TemperatureRange other)
         {

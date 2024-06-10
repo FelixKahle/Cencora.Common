@@ -127,6 +127,18 @@ namespace Cencora.Common.Core
         /// </summary>
         public static readonly Weight Zero = new Weight(0, WeightUnit.Gram);
 
+        public static Weight FromMicrograms(double value) => new Weight(value, WeightUnit.Microgram);
+        public static Weight FromMilligrams(double value) => new Weight(value, WeightUnit.Milligram);
+        public static Weight FromGrams(double value) => new Weight(value, WeightUnit.Gram);
+        public static Weight FromKilograms(double value) => new Weight(value, WeightUnit.Kilogram);
+        public static Weight FromTons(double value) => new Weight(value, WeightUnit.Ton);
+        public static Weight FromPounds(double value) => new Weight(value, WeightUnit.Pound);
+        public static Weight FromOunces(double value) => new Weight(value, WeightUnit.Ounce);
+        public static Weight FromStones(double value) => new Weight(value, WeightUnit.Stone);
+        public static Weight FromCarats(double value) => new Weight(value, WeightUnit.Carat);
+        public static Weight FromLongTons(double value) => new Weight(value, WeightUnit.LongTon);
+        public static Weight FromShortTons(double value) => new Weight(value, WeightUnit.ShortTon);
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Weight"/> struct with a default value of 0 grams.
         /// </summary>
