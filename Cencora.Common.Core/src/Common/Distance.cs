@@ -462,6 +462,16 @@ namespace Cencora.Common.Core
         {
             return left.CompareTo(right) >= 0;
         }
+
+        public static Distance operator +(Distance left, Distance right)
+        {
+            return new Distance(left.Meters + right.Meters, DistanceUnit.Meter);
+        }
+
+        public static Distance operator -(Distance left, Distance right)
+        {
+            return new Distance(left.Meters - right.Meters, DistanceUnit.Meter);
+        }
     }
 
     /// <summary>

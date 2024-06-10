@@ -282,6 +282,53 @@ namespace Cencora.Common.Core.Tests
         }
 
         [Fact]
+        public void Add_WithSameUnit_ShouldReturnCorrectValue()
+        {
+            var weight1 = new Weight(1, WeightUnit.Gram);
+            var weight2 = new Weight(2, WeightUnit.Gram);
+            var result = weight1 + weight2;
+            Assert.Equal(3, result.Grams, 0.01);
+        }
+        
+        [Fact]
+        public void Add_WithDifferentUnit_ShouldReturnCorrectValue()
+        {
+            var weight1 = new Weight(1, WeightUnit.Gram);
+            var weight2 = new Weight(2, WeightUnit.Kilogram);
+            var result = weight1 + weight2;
+            Assert.Equal(2001, result.Grams, 0.01);
+
+            weight1 = new Weight(1, WeightUnit.Kilogram);
+            weight2 = new Weight(2, WeightUnit.Pound);
+            result = weight1 + weight2;
+            Assert.Equal(1907.185, result.Grams, 0.01);
+        }
+
+        [Fact]
+        public void Subtract_WithSameUnit_ShouldReturnCorrectValue()
+        {
+            var weight1 = new Weight(2, WeightUnit.Gram);
+            var weight2 = new Weight(1, WeightUnit.Gram);
+            var result = weight1 - weight2;
+            Assert.Equal(1, result.Grams, 0.01);
+        }
+
+        [Fact]
+        public void Subtract_WithDifferentUnit_ShouldReturnCorrectValue()
+        {
+            var weight1 = new Weight(2, WeightUnit.Kilogram);
+            var weight2 = new Weight(1, WeightUnit.Gram);
+            var result = weight1 - weight2;
+            Assert.Equal(1999, result.Grams, 0.01);
+
+            weight1 = new Weight(1, WeightUnit.Kilogram);
+            weight2 = new Weight(2, WeightUnit.Pound);
+            result = weight1 - weight2;
+            Assert.Equal(92.815, result.Grams, 0.01);
+        }
+
+
+        [Fact]
         public void GetHashCode_WithEqualInstances_ShouldReturnEqualHashCodes()
         {
             var weight1 = new Weight(1, WeightUnit.Gram);

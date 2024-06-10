@@ -284,6 +284,42 @@ namespace Cencora.Common.Core.Tests
         }
 
         [Fact]
+        public void Add_WithSameUnit_ShouldReturnCorrectValue()
+        {
+            var distance1 = new Distance(1, DistanceUnit.Meter);
+            var distance2 = new Distance(2, DistanceUnit.Meter);
+            var result = distance1 + distance2;
+            Assert.Equal(3, result.Meters, 0.0001);
+        }
+
+        [Fact]
+        public void Add_WithDifferentUnit_ShouldReturnCorrectValue()
+        {
+            var distance1 = new Distance(1, DistanceUnit.Meter);
+            var distance2 = new Distance(4, DistanceUnit.Foot);
+            var result = distance1 + distance2;
+            Assert.Equal(2.2192, result.Meters, 0.0001);
+        }
+
+        [Fact]
+        public void Subtract_WithSameUnit_ShouldReturnCorrectValue()
+        {
+            var distance1 = new Distance(2, DistanceUnit.Meter);
+            var distance2 = new Distance(1, DistanceUnit.Meter);
+            var result = distance1 - distance2;
+            Assert.Equal(1, result.Meters, 0.0001);
+        }
+
+        [Fact]
+        public void Subtract_WithDifferentUnit_ShouldReturnCorrectValue()
+        {
+            var distance1 = new Distance(1, DistanceUnit.Kilometer);
+            var distance2 = new Distance(2, DistanceUnit.Meter);
+            var result = distance1 - distance2;
+            Assert.Equal(998, result.Meters, 0.0001);
+        }
+
+        [Fact]
         public void GetHashCode_WithEqualInstances_ShouldReturnEqualHashCodes()
         {
             var distance1 = new Distance(1, DistanceUnit.Meter);

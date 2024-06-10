@@ -264,6 +264,42 @@ namespace Cencora.Common.Core.Tests
         }
 
         [Fact]
+        public void Add_WithSameUnit_ShouldReturnCorrectValue()
+        {
+            var volume1 = new Volume(1, VolumeUnit.CubicMeter);
+            var volume2 = new Volume(2, VolumeUnit.CubicMeter);
+            var result = volume1 + volume2;
+            Assert.Equal(3, result.CubicMeters, 0.00001);
+        }
+
+        [Fact]
+        public void Add_WithDifferentUnit_ShouldReturnCorrectValue()
+        {
+            var volume1 = new Volume(1, VolumeUnit.CubicMeter);
+            var volume2 = new Volume(36, VolumeUnit.CubicFeet);
+            var result = volume1 + volume2;
+            Assert.Equal(2.01941, result.CubicMeters, 0.00001);
+        }
+
+        [Fact]
+        public void Subtract_WithSameUnit_ShouldReturnCorrectValue()
+        {
+            var volume1 = new Volume(1, VolumeUnit.CubicMeter);
+            var volume2 = new Volume(2, VolumeUnit.CubicMeter);
+            var result = volume2 - volume1;
+            Assert.Equal(1, result.CubicMeters, 0.00001);
+        }
+
+        [Fact]
+        public void Subtract_WithDifferentUnit_ShouldReturnCorrectValue()
+        {
+            var volume1 = new Volume(1, VolumeUnit.CubicMeter);
+            var volume2 = new Volume(141.259, VolumeUnit.CubicFeet);
+            var result = volume2 - volume1;
+            Assert.Equal(3, result.CubicMeters, 0.00001);
+        }
+
+        [Fact]
         public void CompareTo_WithGreaterInstance_ShouldReturnPositive()
         {
             var volume1 = new Volume(2, VolumeUnit.CubicMeter);
