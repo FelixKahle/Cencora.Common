@@ -354,6 +354,16 @@ namespace Cencora.Common.Core
         {
             return left.CubicMeters >= right.CubicMeters;
         }
+
+        public static Volume operator +(Volume left, Volume right)
+        {
+            return new Volume(left.CubicMeters + right.CubicMeters, VolumeUnit.CubicMeter);
+        }
+
+        public static Volume operator -(Volume left, Volume right)
+        {
+            return new Volume(left.CubicMeters - right.CubicMeters, VolumeUnit.CubicMeter);
+        }
     }
 
     /// <summary>
