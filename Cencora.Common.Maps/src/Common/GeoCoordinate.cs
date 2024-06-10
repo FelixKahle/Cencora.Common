@@ -22,6 +22,9 @@ namespace Cencora.Common.Maps
         [JsonIgnore]
         private double _longitude { get; set; }
 
+        public static readonly GeoCoordinate Zero = new GeoCoordinate(0, 0);
+        public static readonly GeoCoordinate Default = new GeoCoordinate(0, 0);
+
         /// <summary>
         /// Initializes a new instance of the <see cref="GeoCoordinate"/> class.
         /// Both latitude and longitude are set to 0.

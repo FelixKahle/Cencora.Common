@@ -119,9 +119,9 @@ namespace Cencora.Common.Core
         /// </summary>
         private double _meters;
 
-        public static Distance Zero => new Distance(0, DistanceUnit.Meter);
-        public static Distance MinValue => new Distance(0, DistanceUnit.Meter);
-        public static Distance MaxValue => new Distance(double.MaxValue, DistanceUnit.Meter);
+        public static readonly Distance Zero = new Distance(0, DistanceUnit.Meter);
+        public static readonly Distance MinValue = new Distance(0, DistanceUnit.Meter);
+        public static readonly Distance MaxValue = new Distance(double.MaxValue, DistanceUnit.Meter);
 
         public static Distance FromMillimeters(double value) => new Distance(value, DistanceUnit.Millimeter);
         public static Distance FromCentimeters(double value) => new Distance(value, DistanceUnit.Centimeter);
