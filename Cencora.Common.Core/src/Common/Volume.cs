@@ -107,6 +107,11 @@ namespace Cencora.Common.Core
         }
 
         /// <summary>
+        /// A volume with a value of 0 cubic meters.
+        /// </summary>
+        public static readonly Volume Zero = new Volume(0, VolumeUnit.CubicMeter);
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="Volume"/> class.
         /// </summary>
         /// <param name="value">The value of the volume.</param>
