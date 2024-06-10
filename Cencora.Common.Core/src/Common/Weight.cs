@@ -120,7 +120,12 @@ namespace Cencora.Common.Core
         /// <summary>
         /// The internal weight in grams.
         /// </summary>
-        private double _grams; 
+        private double _grams;
+
+        /// <summary>
+        /// A weight with a value of 0 grams.
+        /// </summary>
+        public static readonly Weight Zero = new Weight(0, WeightUnit.Gram);
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Weight"/> struct with a default value of 0 grams.

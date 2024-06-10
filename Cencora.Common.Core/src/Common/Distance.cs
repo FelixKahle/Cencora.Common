@@ -120,6 +120,11 @@ namespace Cencora.Common.Core
         private double _meters;
 
         /// <summary>
+        /// Gets a <see cref="Distance"/> instance with a value of 0 meters.
+        /// </summary>
+        public static Distance Zero => new Distance(0, DistanceUnit.Meter);
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="Distance"/> struct with a default value of 0 meters.
         /// </summary>
         public Distance()

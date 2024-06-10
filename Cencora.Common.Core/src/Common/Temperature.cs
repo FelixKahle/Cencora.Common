@@ -88,6 +88,11 @@ namespace Cencora.Common.Core
         private double _kelvinValue;
 
         /// <summary>
+        /// Represents the minimum possible temperature value (0 Kelvin).
+        /// </summary>
+        public static readonly Temperature Min = new Temperature(0, TemperatureUnit.Kelvin);
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="Temperature"/> struct with a value of 0 Kelvin.
         /// </summary>
         public Temperature()
