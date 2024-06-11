@@ -493,12 +493,18 @@ namespace Cencora.Common.Core
 
         public static Weight operator +(Weight left, Weight right)
         {
-            return new Weight(left.Grams + right.Grams, WeightUnit.Gram);
+            double value = left.Grams + right.Grams;
+            value = value < 0 ? 0 : value;
+
+            return new Weight(value, WeightUnit.Gram);
         }
 
         public static Weight operator -(Weight left, Weight right)
         {
-            return new Weight(left.Grams - right.Grams, WeightUnit.Gram);
+            double value = left.Grams - right.Grams;
+            value = value < 0 ? 0 : value;
+
+            return new Weight(value, WeightUnit.Gram);
         }
     }
 
