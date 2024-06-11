@@ -124,12 +124,7 @@ namespace Cencora.Common.Core
         /// <param name="unit">The unit of measurement for the volume.</param>
         public Volume(double value, VolumeUnit unit)
         {
-            if (value < 0)
-            {
-                throw new ArgumentOutOfRangeException(nameof(value), "Volume cannot be negative");
-            }
-
-            _cubicMeters = ToCubicMeters(value, unit);
+            _cubicMeters = ToCubicMeters(Math.Clamp(value, 0, double.MaxValue), unit);
         }
 
         /// <summary>
@@ -247,87 +242,75 @@ namespace Cencora.Common.Core
             return ToString("m3", CultureInfo.InvariantCulture);
         }
 
+        /// <summary>
+        /// Gets or sets the weight in cubic centimeters.
+        /// </summary>
         public double CubicCentimeters
         {
-            get => _cubicMeters / 0.000001;
+            get => FromCubicMeters(_cubicMeters, VolumeUnit.CubicCentimeter);
             set
             {
-                if (value < 0)
-                {
-                    throw new ArgumentOutOfRangeException(nameof(value), "Volume cannot be negative");
-                }
-
-                _cubicMeters = value * 0.000001;
+                _cubicMeters = Math.Clamp(ToCubicMeters(value, VolumeUnit.CubicCentimeter), 0, double.MaxValue);
             }
         }
 
+        /// <summary>
+        /// Gets or sets the weight in cubic meters.
+        /// </summary>
         public double CubicMeters
         {
             get => _cubicMeters;
             set
             {
-                if (value < 0)
-                {
-                    throw new ArgumentOutOfRangeException(nameof(value), "Volume cannot be negative");
-                }
-
-                _cubicMeters = value;
+                _cubicMeters = Math.Clamp(value, 0, double.MaxValue);
             }
         }
 
+        /// <summary>
+        /// Gets or sets the weight in cubic feet.
+        /// </summary>
         public double CubicFeet 
         {
-            get => _cubicMeters / 0.0283168;
+            get => FromCubicMeters(_cubicMeters, VolumeUnit.CubicFeet);
             set
             {
-                if (value < 0)
-                {
-                    throw new ArgumentOutOfRangeException(nameof(value), "Volume cannot be negative");
-                }
-
-                _cubicMeters = value * 0.0283168;
+                _cubicMeters = Math.Clamp(ToCubicMeters(value, VolumeUnit.CubicFeet), 0, double.MaxValue);
             }
         }
 
+        /// <summary>
+        /// Gets or sets the weight in liters.
+        /// </summary>
         public double Liters
         {
-            get => _cubicMeters / 0.001;
+            get => FromCubicMeters(_cubicMeters, VolumeUnit.Liter);
             set
             {
-                if (value < 0)
-                {
-                    throw new ArgumentOutOfRangeException(nameof(value), "Volume cannot be negative");
-                }
-
-                _cubicMeters = value * 0.001;
+                _cubicMeters = Math.Clamp(ToCubicMeters(value, VolumeUnit.Liter), 0, double.MaxValue);
             }
         }
 
+        /// <summary>
+        /// Gets or sets the weight in milliliters.
+        /// </summary>
         public double Milliliters
         {
-            get => _cubicMeters / 0.000001;
+            get => FromCubicMeters(_cubicMeters, VolumeUnit.Milliliter);
             set
             {
-                if (value < 0)
-                {
-                    throw new ArgumentOutOfRangeException(nameof(value), "Volume cannot be negative");
-                }
-
-                _cubicMeters = value * 0.000001;
+                _cubicMeters = Math.Clamp(ToCubicMeters(value, VolumeUnit.Milliliter), 0, double.MaxValue);
             }
         }
 
+        /// <summary>
+        /// Gets or sets the weight in gallons.
+        /// </summary>
         public double Gallons
         {
-            get => _cubicMeters / 0.00378541;
+            get => FromCubicMeters(_cubicMeters, VolumeUnit.Gallon);
             set
             {
-                if (value < 0)
-                {
-                    throw new ArgumentOutOfRangeException(nameof(value), "Volume cannot be negative");
-                }
-
-                _cubicMeters = value * 0.00378541;
+                _cubicMeters = Math.Clamp(ToCubicMeters(value, VolumeUnit.Gallon), 0, double.MaxValue);
             }
         }
 
@@ -363,17 +346,13 @@ namespace Cencora.Common.Core
 
         public static Volume operator +(Volume left, Volume right)
         {
-            double value = left.CubicMeters + right.CubicMeters;
-            value = value < 0 ? 0 : value;
-
+            double value = Math.Clamp(left.CubicMeters + right.CubicMeters, 0, double.MaxValue);
             return new Volume(value, VolumeUnit.CubicMeter);
         }
 
         public static Volume operator -(Volume left, Volume right)
         {
-            double value = left.CubicMeters - right.CubicMeters;
-            value = value < 0 ? 0 : value;
-            
+            double value = Math.Clamp(left.CubicMeters - right.CubicMeters, 0, double.MaxValue);
             return new Volume(value, VolumeUnit.CubicMeter);
         }
     }

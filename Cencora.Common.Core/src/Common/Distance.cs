@@ -149,47 +149,30 @@ namespace Cencora.Common.Core
         /// <exception cref="ArgumentException">Thrown when the value is negative.</exception>
         public Distance(double value, DistanceUnit unit)
         {
-            if (value < 0)
-            {
-                throw new ArgumentOutOfRangeException(nameof(value), "Distance value cannot be negative");
-            }
-
-            _meters = ConvertToMeters(value, unit);
+            _meters = ConvertToMeters(Math.Clamp(value, 0, double.MaxValue), unit);
         }
 
         /// <summary>
         /// Gets or sets the distance value in millimeters.
         /// </summary>
-        /// <exception cref="ArgumentOutOfRangeException">Thrown when the value is negative.</exception>
         public double Millimeters
         {
             get => ConvertFromMeters(_meters, DistanceUnit.Millimeter);
             set
             {
-                if (value < 0)
-                {
-                    throw new ArgumentOutOfRangeException(nameof(value), "Distance value cannot be negative");
-                }
-
-                _meters = ConvertToMeters(value, DistanceUnit.Millimeter);
+                _meters = ConvertToMeters(Math.Clamp(value, 0, double.MaxValue), DistanceUnit.Millimeter);
             }
         }
 
         /// <summary>
         /// Gets or sets the distance value in centimeters.
         /// </summary>
-        /// <exception cref="ArgumentOutOfRangeException">Thrown when the value is negative.</exception>
         public double Centimeters
         {
             get => ConvertFromMeters(_meters, DistanceUnit.Centimeter);
             set
             {
-                if (value < 0)
-                {
-                    throw new ArgumentOutOfRangeException(nameof(value), "Distance value cannot be negative");
-                }
-
-                _meters = ConvertToMeters(value, DistanceUnit.Centimeter);
+                _meters = ConvertToMeters(Math.Clamp(value, 0, double.MaxValue), DistanceUnit.Centimeter);
             }
         }
 
@@ -202,120 +185,79 @@ namespace Cencora.Common.Core
             get => _meters;
             set
             {
-                if (value < 0)
-                {
-                    throw new ArgumentOutOfRangeException(nameof(value), "Distance value cannot be negative");
-                }
-
-                _meters = value;
+                _meters = Math.Clamp(value, 0, double.MaxValue);
             }
         }
 
         /// <summary>
         /// Gets or sets the distance value in kilometers.
         /// </summary>
-        /// <exception cref="ArgumentOutOfRangeException">Thrown when the value is negative.</exception>
         public double Kilometers
         {
             get => ConvertFromMeters(_meters, DistanceUnit.Kilometer);
             set
             {
-                if (value < 0)
-                {
-                    throw new ArgumentOutOfRangeException(nameof(value), "Distance value cannot be negative");
-                }
-
-                _meters = ConvertToMeters(value, DistanceUnit.Kilometer);
+                _meters = ConvertToMeters(Math.Clamp(value, 0, double.MaxValue), DistanceUnit.Kilometer);
             }
         }
 
         /// <summary>
         /// Gets or sets the distance value in inches.
         /// </summary>
-        /// <exception cref="ArgumentOutOfRangeException">Thrown when the value is negative.</exception>
         public double Inches
         {
             get => ConvertFromMeters(_meters, DistanceUnit.Inch);
             set
             {
-                if (value < 0)
-                {
-                    throw new ArgumentOutOfRangeException(nameof(value), "Distance value cannot be negative");
-                }
-
-                _meters = ConvertToMeters(value, DistanceUnit.Inch);
+                _meters = ConvertToMeters(Math.Clamp(value, 0, double.MaxValue), DistanceUnit.Inch);
             }
         }
 
         /// <summary>
         /// Gets or sets the distance value in feet.
         /// </summary>
-        /// <exception cref="ArgumentOutOfRangeException">Thrown when the value is negative.</exception>
         public double Feet
         {
             get => ConvertFromMeters(_meters, DistanceUnit.Foot);
             set
             {
-                if (value < 0)
-                {
-                    throw new ArgumentOutOfRangeException(nameof(value), "Distance value cannot be negative");
-                }
-
-                _meters = ConvertToMeters(value, DistanceUnit.Foot);
+                _meters = ConvertToMeters(Math.Clamp(value, 0, double.MaxValue), DistanceUnit.Foot);
             }
         }
 
         /// <summary>
         /// Gets or sets the distance value in yards.
         /// </summary>
-        /// <exception cref="ArgumentOutOfRangeException">Thrown when the value is negative.</exception>
         public double Yards
         {
             get => ConvertFromMeters(_meters, DistanceUnit.Yard);
             set
             {
-                if (value < 0)
-                {
-                    throw new ArgumentOutOfRangeException(nameof(value), "Distance value cannot be negative");
-                }
-
-                _meters = ConvertToMeters(value, DistanceUnit.Yard);
+                _meters = ConvertToMeters(Math.Clamp(value, 0, double.MaxValue), DistanceUnit.Yard);
             }
         }
 
         /// <summary>
         /// Gets or sets the distance value in miles.
         /// </summary>
-        /// <exception cref="ArgumentOutOfRangeException">Thrown when the value is negative.</exception>
         public double Miles
         {
             get => ConvertFromMeters(_meters, DistanceUnit.Mile);
             set
             {
-                if (value < 0)
-                {
-                    throw new ArgumentOutOfRangeException(nameof(value), "Distance value cannot be negative");
-                }
-
-                _meters = ConvertToMeters(value, DistanceUnit.Mile);
+                _meters = ConvertToMeters(Math.Clamp(value, 0, double.MaxValue), DistanceUnit.Mile);
             }
         }
 
         /// <summary>
         /// Gets or sets the distance value in nautical miles.
         /// </summary>
-        /// <exception cref="ArgumentOutOfRangeException">Thrown when the value is negative.</exception>
         public double NauticalMiles
         {
             get => ConvertFromMeters(_meters, DistanceUnit.NauticalMile);
             set
             {
-                if (value < 0)
-                {
-                    throw new ArgumentOutOfRangeException(nameof(value), "Distance value cannot be negative");
-                }
-
-                _meters = ConvertToMeters(value, DistanceUnit.NauticalMile);
+                _meters = ConvertToMeters(Math.Clamp(value, 0, double.MaxValue), DistanceUnit.NauticalMile);
             }
         }
 
@@ -474,17 +416,13 @@ namespace Cencora.Common.Core
 
         public static Distance operator +(Distance left, Distance right)
         {
-            double value = left.Meters + right.Meters;
-            value = value < 0 ? 0 : value;
-
+            double value = Math.Clamp(left.Meters + right.Meters, 0, double.MaxValue);
             return new Distance(value, DistanceUnit.Meter);
         }
 
         public static Distance operator -(Distance left, Distance right)
         {
-            double value = left.Meters - right.Meters;
-            value = value < 0 ? 0 : value;
-
+            double value = Math.Clamp(left.Meters - right.Meters, 0, double.MaxValue);
             return new Distance(value, DistanceUnit.Meter);
         }
     }

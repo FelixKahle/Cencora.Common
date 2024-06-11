@@ -160,9 +160,13 @@ namespace Cencora.Common.Core.Tests
         }
 
         [Fact]
-        public void Constructor_WithInvalidParameterts_ShouldThrowException()
+        public void Constructor_WithInvalidParameters_ShouldSetToZero()
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => new Weight(-1, WeightUnit.Gram));
+            var weight = new Weight(-1, WeightUnit.Gram);
+            Assert.Equal(0, weight.Grams);
+
+            weight = new Weight(-1, WeightUnit.Kilogram);
+            Assert.Equal(0, weight.Kilograms);
         }
 
         [Fact]
@@ -503,20 +507,42 @@ namespace Cencora.Common.Core.Tests
         }
 
         [Fact]
-        public void SetWeight_NegativeValue_ShouldThrowException()
+        public void SetWeight_NegativeValue_ShouldSetToZero()
         {
             var weight = new Weight();
-            Assert.Throws<ArgumentOutOfRangeException>(() => weight.Micrograms = -1);
-            Assert.Throws<ArgumentOutOfRangeException>(() => weight.Milligrams = -1);
-            Assert.Throws<ArgumentOutOfRangeException>(() => weight.Grams = -1);
-            Assert.Throws<ArgumentOutOfRangeException>(() => weight.Kilograms = -1);
-            Assert.Throws<ArgumentOutOfRangeException>(() => weight.Tons = -1);
-            Assert.Throws<ArgumentOutOfRangeException>(() => weight.Pounds = -1);
-            Assert.Throws<ArgumentOutOfRangeException>(() => weight.Ounces = -1);
-            Assert.Throws<ArgumentOutOfRangeException>(() => weight.Stones = -1);
-            Assert.Throws<ArgumentOutOfRangeException>(() => weight.Carats = -1);
-            Assert.Throws<ArgumentOutOfRangeException>(() => weight.LongTons = -1);
-            Assert.Throws<ArgumentOutOfRangeException>(() => weight.ShortTons = -1);
+            
+            weight.Micrograms = -1;
+            Assert.Equal(0, weight.Micrograms);
+
+            weight.Milligrams = -1;
+            Assert.Equal(0, weight.Milligrams);
+
+            weight.Grams = -1;
+            Assert.Equal(0, weight.Grams);
+
+            weight.Kilograms = -1;
+            Assert.Equal(0, weight.Kilograms);
+
+            weight.Tons = -1;
+            Assert.Equal(0, weight.Tons);
+
+            weight.Pounds = -1;
+            Assert.Equal(0, weight.Pounds);
+
+            weight.Ounces = -1;
+            Assert.Equal(0, weight.Ounces);
+
+            weight.Stones = -1;
+            Assert.Equal(0, weight.Stones);
+
+            weight.Carats = -1;
+            Assert.Equal(0, weight.Carats);
+
+            weight.LongTons = -1;
+            Assert.Equal(0, weight.LongTons);
+
+            weight.ShortTons = -1;
+            Assert.Equal(0, weight.ShortTons);
         }
 
         /// <summary>

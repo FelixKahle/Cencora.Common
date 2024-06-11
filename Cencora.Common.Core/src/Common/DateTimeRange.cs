@@ -36,8 +36,6 @@ namespace Cencora.Common.Core
         [JsonInclude]
         public TimeSpan Duration => End - Start;
 
-        public static readonly DateTimeRange Default = new DateTimeRange { Start = DateTimeOffset.MinValue, End = DateTimeOffset.MaxValue };
-
         /// <summary>
         /// Initializes a new instance of the <see cref="DateTimeRange"/> struct.
         /// </summary>
@@ -52,13 +50,8 @@ namespace Cencora.Common.Core
         /// </summary>
         /// <param name="start">The start of the range.</param>
         /// <param name="end">The end of the range.</param>
-        /// <exception cref="ArgumentException">Thrown when the start is after the end.</exception>
         public DateTimeRange(DateTimeOffset start, DateTimeOffset end)
         {
-            if (start > end)
-            {
-                throw new ArgumentException("The start of the range must be before the end.");
-            }
             Start = start;
             End = end;
         }

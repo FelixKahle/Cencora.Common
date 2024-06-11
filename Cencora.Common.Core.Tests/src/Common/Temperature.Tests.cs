@@ -107,11 +107,13 @@ namespace Cencora.Common.Core.Tests
         }
 
         [Fact]
-        public void Constructor_WithInvalidParamaters_ShouldThrowException()
+        public void Constructor_WithInvalidParameters_ShouldSetToZer()
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => new Temperature(-5, TemperatureUnit.Kelvin));
-            Assert.Throws<ArgumentOutOfRangeException>(() => new Temperature(-300, TemperatureUnit.Celsius));
-            Assert.Throws<ArgumentOutOfRangeException>(() => new Temperature(-1000, TemperatureUnit.Fahrenheit));
+            var temperature = new Temperature(-1, TemperatureUnit.Kelvin);
+            Assert.Equal(0, temperature.Kelvin);
+
+            temperature = new Temperature(-300, TemperatureUnit.Celsius);
+            Assert.Equal(0, temperature.Kelvin);
         }
 
         [Fact]
@@ -324,12 +326,18 @@ namespace Cencora.Common.Core.Tests
         }
 
         [Fact]
-        public void SetTemperature_WithInvalidValue_ThrowsException()
+        public void SetTemperature_WithInvalidValue_ShouldSetToZero()
         {
             var temperature = new Temperature();
-            Assert.Throws<ArgumentOutOfRangeException>(() => temperature.Kelvin = -1);
-            Assert.Throws<ArgumentOutOfRangeException>(() => temperature.Celsius = -274);
-            Assert.Throws<ArgumentOutOfRangeException>(() => temperature.Fahrenheit = -460);
+
+            temperature.Kelvin = -1;
+            Assert.Equal(0, temperature.Kelvin);
+
+            temperature.Celsius = -274;
+            Assert.Equal(0, temperature.Kelvin);
+
+            temperature.Fahrenheit = -460;
+            Assert.Equal(0, temperature.Kelvin);
         }
 
         /// <summary>

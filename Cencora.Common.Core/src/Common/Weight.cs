@@ -153,12 +153,7 @@ namespace Cencora.Common.Core
         /// <param name="unit">The unit of the weight.</param>
         public Weight(double value, WeightUnit unit)
         {
-            if (value < 0)
-            {
-                throw new ArgumentOutOfRangeException(nameof(value), "Weight value cannot be negative");
-            }
-
-            _grams = ConvertToGrams(value, unit);
+            _grams = ConvertToGrams(Math.Clamp(value, 0, double.MaxValue), unit);
         }
 
         /// <summary>
@@ -282,12 +277,7 @@ namespace Cencora.Common.Core
             get => ConvertFromGrams(_grams, WeightUnit.Microgram);
             set 
             {
-                if (value < 0)
-                {
-                    throw new ArgumentOutOfRangeException(nameof(value), "Weight value cannot be negative");
-                }
-
-                _grams = ConvertToGrams(value, WeightUnit.Microgram);
+                _grams = ConvertToGrams(Math.Clamp(value, 0, double.MaxValue), WeightUnit.Microgram);
             }
         }
 
@@ -299,12 +289,7 @@ namespace Cencora.Common.Core
             get => ConvertFromGrams(_grams, WeightUnit.Milligram);
             set 
             {
-                if (value < 0)
-                {
-                    throw new ArgumentOutOfRangeException(nameof(value), "Weight value cannot be negative");
-                }
-
-                _grams = ConvertToGrams(value, WeightUnit.Milligram);
+                _grams = ConvertToGrams(Math.Clamp(value, 0, double.MaxValue), WeightUnit.Milligram);
             }
         }
 
@@ -316,11 +301,7 @@ namespace Cencora.Common.Core
             get => _grams;
             set 
             {
-                if (value < 0)
-                {
-                    throw new ArgumentOutOfRangeException(nameof(value), "Weight value cannot be negative");
-                }
-                 _grams = ConvertToGrams(value, WeightUnit.Gram);
+                 _grams = ConvertToGrams(Math.Clamp(value, 0, double.MaxValue), WeightUnit.Gram);
             }
         }
 
@@ -332,12 +313,7 @@ namespace Cencora.Common.Core
             get => ConvertFromGrams(_grams, WeightUnit.Kilogram);
             set 
             {
-                if (value < 0)
-                {
-                    throw new ArgumentOutOfRangeException(nameof(value), "Weight value cannot be negative");
-                }
-
-                _grams = ConvertToGrams(value, WeightUnit.Kilogram);
+                _grams = ConvertToGrams(Math.Clamp(value, 0, double.MaxValue), WeightUnit.Kilogram);
             
             }
         }
@@ -350,12 +326,7 @@ namespace Cencora.Common.Core
             get => ConvertFromGrams(_grams, WeightUnit.Ton);
             set
             {
-                if (value < 0)
-                {
-                    throw new ArgumentOutOfRangeException(nameof(value), "Weight value cannot be negative");
-                }
-
-                _grams = ConvertToGrams(value, WeightUnit.Ton);
+                _grams = ConvertToGrams(Math.Clamp(value, 0, double.MaxValue), WeightUnit.Ton);
             }
         }
 
@@ -367,12 +338,7 @@ namespace Cencora.Common.Core
             get => ConvertFromGrams(_grams, WeightUnit.Pound);
             set
             {
-                if (value < 0)
-                {
-                    throw new ArgumentOutOfRangeException(nameof(value), "Weight value cannot be negative");
-                }
-
-                _grams = ConvertToGrams(value, WeightUnit.Pound);
+                _grams = ConvertToGrams(Math.Clamp(value, 0, double.MaxValue), WeightUnit.Pound);
             }
         }
 
@@ -384,12 +350,7 @@ namespace Cencora.Common.Core
             get => ConvertFromGrams(_grams, WeightUnit.Ounce);
             set
             {
-                if (value < 0)
-                {
-                    throw new ArgumentOutOfRangeException(nameof(value), "Weight value cannot be negative");
-                }
-
-                _grams = ConvertToGrams(value, WeightUnit.Ounce);
+                _grams = ConvertToGrams(Math.Clamp(value, 0, double.MaxValue), WeightUnit.Ounce);
             }
         }
 
@@ -401,12 +362,7 @@ namespace Cencora.Common.Core
             get => ConvertFromGrams(_grams, WeightUnit.Stone);
             set
             {
-                if (value < 0)
-                {
-                    throw new ArgumentOutOfRangeException(nameof(value), "Weight value cannot be negative");
-                }
-
-                _grams = ConvertToGrams(value, WeightUnit.Stone);
+                _grams = ConvertToGrams(Math.Clamp(value, 0, double.MaxValue), WeightUnit.Stone);
             }
         }
 
@@ -418,12 +374,7 @@ namespace Cencora.Common.Core
             get => ConvertFromGrams(_grams, WeightUnit.Carat);
             set
             {
-                if (value < 0)
-                {
-                    throw new ArgumentOutOfRangeException(nameof(value), "Weight value cannot be negative");
-                }
-
-                _grams = ConvertToGrams(value, WeightUnit.Carat);
+                _grams = ConvertToGrams(Math.Clamp(value, 0, double.MaxValue), WeightUnit.Carat);
             }
         }
 
@@ -435,12 +386,7 @@ namespace Cencora.Common.Core
             get => ConvertFromGrams(_grams, WeightUnit.LongTon);
             set
             {
-                if (value < 0)
-                {
-                    throw new ArgumentOutOfRangeException(nameof(value), "Weight value cannot be negative");
-                }
-
-                _grams = ConvertToGrams(value, WeightUnit.LongTon);
+                _grams = ConvertToGrams(Math.Clamp(value, 0, double.MaxValue), WeightUnit.LongTon);
             }
         }
 
@@ -452,12 +398,7 @@ namespace Cencora.Common.Core
             get => ConvertFromGrams(_grams, WeightUnit.ShortTon);
             set
             {
-                if (value < 0)
-                {
-                    throw new ArgumentOutOfRangeException(nameof(value), "Weight value cannot be negative");
-                }
-
-                _grams = ConvertToGrams(value, WeightUnit.ShortTon);
+                _grams = ConvertToGrams(Math.Clamp(value, 0, double.MaxValue), WeightUnit.ShortTon);
             }
         }
 
@@ -493,17 +434,13 @@ namespace Cencora.Common.Core
 
         public static Weight operator +(Weight left, Weight right)
         {
-            double value = left.Grams + right.Grams;
-            value = value < 0 ? 0 : value;
-
+            double value = Math.Clamp(left.Grams + right.Grams, 0, double.MaxValue);
             return new Weight(value, WeightUnit.Gram);
         }
 
         public static Weight operator -(Weight left, Weight right)
         {
-            double value = left.Grams - right.Grams;
-            value = value < 0 ? 0 : value;
-
+            double value = Math.Clamp(left.Grams - right.Grams, 0, double.MaxValue);
             return new Weight(value, WeightUnit.Gram);
         }
     }
