@@ -474,12 +474,18 @@ namespace Cencora.Common.Core
 
         public static Distance operator +(Distance left, Distance right)
         {
-            return new Distance(left.Meters + right.Meters, DistanceUnit.Meter);
+            double value = left.Meters + right.Meters;
+            value = value < 0 ? 0 : value;
+
+            return new Distance(value, DistanceUnit.Meter);
         }
 
         public static Distance operator -(Distance left, Distance right)
         {
-            return new Distance(left.Meters - right.Meters, DistanceUnit.Meter);
+            double value = left.Meters - right.Meters;
+            value = value < 0 ? 0 : value;
+
+            return new Distance(value, DistanceUnit.Meter);
         }
     }
 

@@ -363,12 +363,18 @@ namespace Cencora.Common.Core
 
         public static Volume operator +(Volume left, Volume right)
         {
-            return new Volume(left.CubicMeters + right.CubicMeters, VolumeUnit.CubicMeter);
+            double value = left.CubicMeters + right.CubicMeters;
+            value = value < 0 ? 0 : value;
+
+            return new Volume(value, VolumeUnit.CubicMeter);
         }
 
         public static Volume operator -(Volume left, Volume right)
         {
-            return new Volume(left.CubicMeters - right.CubicMeters, VolumeUnit.CubicMeter);
+            double value = left.CubicMeters - right.CubicMeters;
+            value = value < 0 ? 0 : value;
+            
+            return new Volume(value, VolumeUnit.CubicMeter);
         }
     }
 
