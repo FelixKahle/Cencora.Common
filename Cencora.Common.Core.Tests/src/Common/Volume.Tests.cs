@@ -112,6 +112,16 @@ namespace Cencora.Common.Core.Tests
             Assert.Equal(0, volume.CubicMeters);
         }
 
+        [Fact]
+        public void Constructor_WithInvalidParameters_ShouldSetToZero()
+        {
+            var volume = new Volume(-1, VolumeUnit.CubicMeter);
+            Assert.Equal(0, volume.CubicMeters);
+
+            volume = new Volume(-1, VolumeUnit.CubicFeet);
+            Assert.Equal(0, volume.CubicFeet);
+        }
+
         [Theory]
         [InlineData(1, VolumeUnit.CubicCentimeter, 0.000001)]
         [InlineData(1, VolumeUnit.CubicMeter, 1)]
@@ -123,12 +133,6 @@ namespace Cencora.Common.Core.Tests
         {
             var volume = new Volume(value, unit);
             Assert.Equal(expectedCubicMeters, volume.CubicMeters, 0.00001);
-        }
-
-        [Fact]
-        public void Constructor_WithInvalidParameters_ShouldThrowError()
-        {
-            Assert.Throws<ArgumentOutOfRangeException>(() => new Volume(-1, VolumeUnit.CubicMeter));
         }
 
         [Fact]
@@ -409,15 +413,27 @@ namespace Cencora.Common.Core.Tests
         }
 
         [Fact]
-        public void SetVolume_NegativeValue_ShouldThrowException()
+        public void SetVolume_NegativeValue_ShouldSetToZero()
         {
             var volume = new Volume();
-            Assert.Throws<ArgumentOutOfRangeException>(() => volume.CubicCentimeters = -1);
-            Assert.Throws<ArgumentOutOfRangeException>(() => volume.CubicMeters = -1);
-            Assert.Throws<ArgumentOutOfRangeException>(() => volume.CubicFeet = -1);
-            Assert.Throws<ArgumentOutOfRangeException>(() => volume.Liters = -1);
-            Assert.Throws<ArgumentOutOfRangeException>(() => volume.Milliliters = -1);
-            Assert.Throws<ArgumentOutOfRangeException>(() => volume.Gallons = -1);
+            
+            volume.CubicCentimeters = -1;
+            Assert.Equal(0, volume.CubicCentimeters);
+
+            volume.CubicMeters = -1;
+            Assert.Equal(0, volume.CubicMeters);
+
+            volume.CubicFeet = -1;
+            Assert.Equal(0, volume.CubicFeet);
+
+            volume.Liters = -1;
+            Assert.Equal(0, volume.Liters);
+
+            volume.Milliliters = -1;
+            Assert.Equal(0, volume.Milliliters);
+
+            volume.Gallons = -1;
+            Assert.Equal(0, volume.Gallons);
         }
 
         /// <summary>

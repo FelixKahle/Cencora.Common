@@ -162,9 +162,13 @@ namespace Cencora.Common.Core.Tests
         }
 
         [Fact]
-        public void Constructor_WithInvalidParameterts_ShouldThrowException()
+        public void Constructor_WithInvalidParameters_ShouldSetToZero()
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => new Distance(-1, DistanceUnit.Meter));
+            var distance = new Distance(-1, DistanceUnit.Meter);
+            Assert.Equal(0, distance.Meters);
+
+            distance = new Distance(-1, DistanceUnit.Millimeter);
+            Assert.Equal(0, distance.Millimeters);
         }
 
         [Fact]
@@ -470,18 +474,36 @@ namespace Cencora.Common.Core.Tests
         }
 
         [Fact]
-        public void SetDistance_NegativeValue_ShouldThrowException()
+        public void SetDistance_NegativeValue_ShouldSetToZero()
         {
             var distance = new Distance();
-            Assert.Throws<ArgumentOutOfRangeException>(() => distance.Meters = -1);
-            Assert.Throws<ArgumentOutOfRangeException>(() => distance.Millimeters = -1);
-            Assert.Throws<ArgumentOutOfRangeException>(() => distance.Centimeters = -1);
-            Assert.Throws<ArgumentOutOfRangeException>(() => distance.Kilometers = -1);
-            Assert.Throws<ArgumentOutOfRangeException>(() => distance.Inches = -1);
-            Assert.Throws<ArgumentOutOfRangeException>(() => distance.Feet = -1);
-            Assert.Throws<ArgumentOutOfRangeException>(() => distance.Yards = -1);
-            Assert.Throws<ArgumentOutOfRangeException>(() => distance.Miles = -1);
-            Assert.Throws<ArgumentOutOfRangeException>(() => distance.NauticalMiles = -1);
+
+            distance.Meters = -1;
+            Assert.Equal(0, distance.Meters);
+
+            distance.Millimeters = -1;
+            Assert.Equal(0, distance.Millimeters);
+
+            distance.Centimeters = -1;
+            Assert.Equal(0, distance.Centimeters);
+
+            distance.Kilometers = -1;
+            Assert.Equal(0, distance.Kilometers);
+
+            distance.Inches = -1;
+            Assert.Equal(0, distance.Inches);
+
+            distance.Feet = -1;
+            Assert.Equal(0, distance.Feet);
+
+            distance.Yards = -1;
+            Assert.Equal(0, distance.Yards);
+
+            distance.Miles = -1;
+            Assert.Equal(0, distance.Miles);
+
+            distance.NauticalMiles = -1;
+            Assert.Equal(0, distance.NauticalMiles);
         }
 
         /// <summary>

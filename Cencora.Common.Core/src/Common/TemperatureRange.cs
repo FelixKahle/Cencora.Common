@@ -29,6 +29,10 @@ namespace Cencora.Common.Core
         [JsonIgnore]
         public bool IsSingleTemperature => Min == Max;
 
+        /// <summary>
+        /// The default temperature range.
+        /// Ranges from <see cref="Temperature.MinValue"/> to <see cref="Temperature.MaxValue"/>.
+        /// </summary>
         public static readonly TemperatureRange Default = new TemperatureRange { Min = Temperature.MinValue, Max = Temperature.MaxValue };
 
         /// <summary>

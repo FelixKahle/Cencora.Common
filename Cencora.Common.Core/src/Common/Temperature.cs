@@ -108,22 +108,15 @@ namespace Cencora.Common.Core
         /// <param name="value">The temperature value.</param>
         /// <param name="unit">The unit of the temperature value.</param>
         /// <exception cref="ArgumentException">Thrown when the specified unit is unknown.</exception>
-        /// <exception cref="ArgumentOutOfRangeException">Thrown when the specified value is below absolute zero.</exception>
         public Temperature(double value, TemperatureUnit unit)
         {
-            _kelvinValue = unit switch
+            _kelvinValue = Math.Clamp(unit switch
             {
                 TemperatureUnit.Celsius => value + 273.15,
                 TemperatureUnit.Fahrenheit => (value + 459.67) * 5 / 9,
                 TemperatureUnit.Kelvin => value,
                 _ => throw new ArgumentException($"Unknown temperature unit: {unit}")
-            };
-
-            if (_kelvinValue < 0)
-            {
-                _kelvinValue = 0;
-                throw new ArgumentOutOfRangeException(nameof(value), "A temperature below absolute zero is not possible.");
-            }
+            }, 0, double.MaxValue);
         }
 
         private static double ConvertToKelvin(double value, TemperatureUnit unit)
@@ -166,12 +159,7 @@ namespace Cencora.Common.Core
             get => _kelvinValue;
             set 
             {
-                if (value < 0)
-                {
-                    throw new ArgumentOutOfRangeException(nameof(value), "A temperature below absolute zero is not possible.");
-                }
-
-                _kelvinValue = value;
+                _kelvinValue = Math.Clamp(value, 0, double.MaxValue);
             }
         }
 

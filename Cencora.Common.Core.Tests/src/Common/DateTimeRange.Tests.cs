@@ -32,15 +32,6 @@ namespace Cencora.Common.Core.Tests
         }
 
         [Fact]
-        public void Constructor_WithEndBeforeStart_ShouldThrowException()
-        {
-            var start = new DateTime(2024, 1, 1);
-            var end = new DateTime(2023, 1, 1);
-
-            Assert.Throws<ArgumentException>(() => new DateTimeRange(start, end));
-        }
-
-        [Fact]
         public void Constructor_WithEndEqualStart_ShouldCreateInstance()
         {
             var start = new DateTime(2024, 1, 1);
