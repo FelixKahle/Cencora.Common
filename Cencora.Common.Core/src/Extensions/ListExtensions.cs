@@ -16,7 +16,7 @@ namespace Cencora.Common.Core
         /// <param name="list">The list to check.</param>
         /// <param name="index">The index to check.</param>
         /// <returns><c>true</c> if the index is valid; otherwise, <c>false</c>.</returns>
-        public static bool IsIndexValid<T>(this List<T> list, int index)
+        public static bool IsIndexValid<T>(this IList<T> list, int index)
         {
             return index >= 0 && index < list.Count;
         }
