@@ -12,8 +12,16 @@ namespace Cencora.Common.Maps.Tests
         public void Constructor_WithoutParameters_ShouldCreateInstance()
         {
             var geoCoordinate = new GeoCoordinate();
-            Assert.Equal(0, geoCoordinate.Latitude);
-            Assert.Equal(0, geoCoordinate.Longitude);
+            Assert.Equal(double.NaN, geoCoordinate.Latitude);
+            Assert.Equal(double.NaN, geoCoordinate.Longitude);
+            Assert.Equal(GeoCoordinate.Unkown, geoCoordinate);
+        }
+
+        [Fact]
+        public void IsUnknown_WithUnknownCoordinate_ShouldReturnTrue()
+        {
+            var geoCoordinate = new GeoCoordinate();
+            Assert.True(geoCoordinate.IsUnknown);
         }
 
         [Fact]
