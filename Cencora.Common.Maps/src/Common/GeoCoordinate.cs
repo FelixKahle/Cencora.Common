@@ -23,7 +23,7 @@ namespace Cencora.Common.Maps
         private double _longitude { get; set; }
 
         public static readonly GeoCoordinate Zero = new GeoCoordinate(0, 0);
-        public static readonly GeoCoordinate Unkown = new GeoCoordinate(double.NaN, double.NaN);
+        public static readonly GeoCoordinate Unknown = new GeoCoordinate(double.NaN, double.NaN);
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GeoCoordinate"/> class.
@@ -95,7 +95,7 @@ namespace Cencora.Common.Maps
         /// <summary>
         /// Gets a value indicating whether the current instance represents an unknown coordinate.
         /// </summary>
-        public bool IsUnknown => Equals(Unkown);
+        public bool IsUnknown => Equals(Unknown);
 
         /// <inheritdoc/>
         public bool Equals(GeoCoordinate other)

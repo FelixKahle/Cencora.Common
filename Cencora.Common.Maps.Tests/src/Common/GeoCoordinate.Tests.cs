@@ -14,7 +14,7 @@ namespace Cencora.Common.Maps.Tests
             var geoCoordinate = new GeoCoordinate();
             Assert.Equal(double.NaN, geoCoordinate.Latitude);
             Assert.Equal(double.NaN, geoCoordinate.Longitude);
-            Assert.Equal(GeoCoordinate.Unkown, geoCoordinate);
+            Assert.Equal(GeoCoordinate.Unknown, geoCoordinate);
         }
 
         [Fact]
