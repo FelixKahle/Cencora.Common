@@ -95,6 +95,7 @@ namespace Cencora.Common.Maps
         /// <summary>
         /// Gets a value indicating whether the current instance represents an unknown coordinate.
         /// </summary>
+        [JsonInclude]
         public bool IsUnknown => Equals(Unknown);
 
         /// <inheritdoc/>
