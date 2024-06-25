@@ -10,7 +10,7 @@ namespace Cencora.Common.Core
     /// <summary>
     /// Represents a range of date and time values.
     /// </summary>
-    public struct DateTimeRange : IEquatable<DateTimeRange>
+    public struct DateTimeOffsetRange : IEquatable<DateTimeOffsetRange>
     {
         /// <summary>
         /// Gets or sets the start of the range.
@@ -37,27 +37,45 @@ namespace Cencora.Common.Core
         public TimeSpan Duration => End - Start;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DateTimeRange"/> struct.
+        /// Gets the middle of the range.
         /// </summary>
-        public DateTimeRange()
+        /// <remarks>
+        /// If the range is a single point in time, the middle is equal to the start and end.
+        /// </remarks>
+        [JsonIgnore]
+        public DateTimeOffset Middle => Start + Duration / 2;
+
+        /// <summary>
+        /// Gets a value indicating whether the range is valid.
+        /// </summary>
+        /// <remarks>
+        /// A range is considered valid if the start is less than or equal to the end.
+        /// </remarks>
+        [JsonIgnore]
+        public bool Valid => Start <= End;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DateTimeOffsetRange"/> struct.
+        /// </summary>
+        public DateTimeOffsetRange()
         {
             Start = DateTimeOffset.MinValue;
             End = DateTimeOffset.MaxValue;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DateTimeRange"/> struct.
+        /// Initializes a new instance of the <see cref="DateTimeOffsetRange"/> struct.
         /// </summary>
         /// <param name="start">The start of the range.</param>
         /// <param name="end">The end of the range.</param>
-        public DateTimeRange(DateTimeOffset start, DateTimeOffset end)
+        public DateTimeOffsetRange(DateTimeOffset start, DateTimeOffset end)
         {
             Start = start;
             End = end;
         }
 
         /// <inheritdoc/>
-        public bool Equals(DateTimeRange other)
+        public bool Equals(DateTimeOffsetRange other)
         {
             return Start.Equals(other.Start) && End.Equals(other.End);
         }
@@ -65,7 +83,7 @@ namespace Cencora.Common.Core
         /// <inheritdoc/>
         public override bool Equals(object? obj)
         {
-            return obj is DateTimeRange other && Equals(other);
+            return obj is DateTimeOffsetRange other && Equals(other);
         }
 
         /// <inheritdoc/>
@@ -81,13 +99,13 @@ namespace Cencora.Common.Core
         }
 
         /// <summary>
-        /// Converts the range to a new <see cref="DateTimeRange"/> instance
+        /// Converts the range to a new <see cref="DateTimeOffsetRange"/> instance
         /// with the start and end values converted to universal time.
         /// </summary>
-        /// <returns>A new <see cref="DateTimeRange"/> instance with the start and end values converted to universal time.</returns>
-        public DateTimeRange ToUniversalTime()
+        /// <returns>A new <see cref="DateTimeOffsetRange"/> instance with the start and end values converted to universal time.</returns>
+        public DateTimeOffsetRange ToUniversalTime()
         {
-            return new DateTimeRange
+            return new DateTimeOffsetRange
             {
                 Start = Start.ToUniversalTime(),
                 End = End.ToUniversalTime()
@@ -95,13 +113,13 @@ namespace Cencora.Common.Core
         }
 
         /// <summary>
-        /// Converts the range to a new <see cref="DateTimeRange"/> instance
+        /// Converts the range to a new <see cref="DateTimeOffsetRange"/> instance
         /// with the start and end values converted to local time.
         /// </summary>
-        /// <returns>A new <see cref="DateTimeRange"/> instance with the start and end values converted to local time.</returns>
-        public DateTimeRange ToLocalTime()
+        /// <returns>A new <see cref="DateTimeOffsetRange"/> instance with the start and end values converted to local time.</returns>
+        public DateTimeOffsetRange ToLocalTime()
         {
-            return new DateTimeRange
+            return new DateTimeOffsetRange
             {
                 Start = Start.ToLocalTime(),
                 End = End.ToLocalTime()
@@ -112,10 +130,10 @@ namespace Cencora.Common.Core
         /// Adds a time span to the range.
         /// </summary>
         /// <param name="timeSpan">The time span to add.</param>
-        /// <returns>A new <see cref="DateTimeRange"/> instance with the time span added to the start and end values.</returns>
-        public DateTimeRange Add(TimeSpan timeSpan)
+        /// <returns>A new <see cref="DateTimeOffsetRange"/> instance with the time span added to the start and end values.</returns>
+        public DateTimeOffsetRange Add(TimeSpan timeSpan)
         {
-            return new DateTimeRange
+            return new DateTimeOffsetRange
             {
                 Start = Start.Add(timeSpan),
                 End = End.Add(timeSpan)
@@ -128,7 +146,7 @@ namespace Cencora.Common.Core
         /// <param name="other">The other range.</param>
         /// <param name="minimumOverlap">The minimum overlap required for the ranges to be considered overlapping.</param>
         /// <returns><c>true</c> if the other range overlaps with this range; otherwise, <c>false</c>.</returns>
-        public bool Overlaps(DateTimeRange other, TimeSpan minimumOverlap)
+        public bool Overlaps(DateTimeOffsetRange other, TimeSpan minimumOverlap)
         {
             return Overlaps(this, other, minimumOverlap);
         }
@@ -138,13 +156,13 @@ namespace Cencora.Common.Core
         /// </summary>
         /// <param name="other">The other range.</param>
         /// <returns><c>true</c> if the other range overlaps with this range; otherwise, <c>false</c>.</returns>
-        public bool Overlaps(DateTimeRange other)
+        public bool Overlaps(DateTimeOffsetRange other)
         {
             return Overlaps(this, other, TimeSpan.Zero);
         }
 
         /// <summary>
-        /// Determines whether a <see cref="DateTimeOffset"/> value is contained within a <see cref="DateTimeRange"/>.
+        /// Determines whether a <see cref="DateTimeOffset"/> value is contained within a <see cref="DateTimeOffsetRange"/>.
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns><c>true</c> if the value is contained within the range; otherwise, <c>false</c>.</returns>
@@ -154,42 +172,42 @@ namespace Cencora.Common.Core
         }
 
         /// <summary>
-        /// Determines whether a <see cref="DateTimeRange"/> is contained within another <see cref="DateTimeRange"/>.
+        /// Determines whether a <see cref="DateTimeOffsetRange"/> is contained within another <see cref="DateTimeOffsetRange"/>.
         /// </summary>
         /// <param name="other">The other range.</param>
         /// <returns><c>true</c> if the other range is contained within the range; otherwise, <c>false</c>.</returns>
-        public bool Contains(DateTimeRange other)
+        public bool Contains(DateTimeOffsetRange other)
         {
             return Contains(this, other);
         }
 
         /// <summary>
-        /// Calculates the intersection of two <see cref="DateTimeRange"/> instances.
+        /// Calculates the intersection of two <see cref="DateTimeOffsetRange"/> instances.
         /// </summary>
         /// <param name="other">The other range.</param>
         /// <param name="minimumOverlap">The minimum overlap required for the ranges to be considered overlapping.</param>
         /// <returns>The intersection of the two ranges, or <c>null</c> if the ranges do not overlap.</returns>
-        public DateTimeRange? Intersection(DateTimeRange other, TimeSpan minimumOverlap)
+        public DateTimeOffsetRange? Intersection(DateTimeOffsetRange other, TimeSpan minimumOverlap)
         {
             return Intersection(this, other, minimumOverlap);
         }
 
         /// <summary>
-        /// Calculates the intersection of two <see cref="DateTimeRange"/> instances.
+        /// Calculates the intersection of two <see cref="DateTimeOffsetRange"/> instances.
         /// </summary>
         /// <param name="other">The other range.</param>
         /// <returns>The intersection of the two ranges, or <c>null</c> if the ranges do not overlap.</returns>
-        public DateTimeRange? Intersection(DateTimeRange other)
+        public DateTimeOffsetRange? Intersection(DateTimeOffsetRange other)
         {
             return Intersection(this, other, TimeSpan.Zero);
         }
 
-        public static bool operator ==(DateTimeRange left, DateTimeRange right)
+        public static bool operator ==(DateTimeOffsetRange left, DateTimeOffsetRange right)
         {
             return left.Equals(right);
         }
 
-        public static bool operator !=(DateTimeRange left, DateTimeRange right)
+        public static bool operator !=(DateTimeOffsetRange left, DateTimeOffsetRange right)
         {
             return !left.Equals(right);
         }
@@ -200,7 +218,7 @@ namespace Cencora.Common.Core
         /// <param name="left">The left range.</param>
         /// <param name="right">The right range.</param>
         /// <returns><c>true</c> if the duration of the left range is less than the duration of the right range; otherwise, <c>false</c>.</returns>
-        public static bool operator <(DateTimeRange left, DateTimeRange right)
+        public static bool operator <(DateTimeOffsetRange left, DateTimeOffsetRange right)
         {
             return left.Duration < right.Duration;
         }
@@ -211,7 +229,7 @@ namespace Cencora.Common.Core
         /// <param name="left">The left range.</param>
         /// <param name="right">The right range.</param>
         /// <returns><c>true</c> if the duration of the left range is greater than the duration of the right range; otherwise, <c>false</c>.</returns>
-        public static bool operator >(DateTimeRange left, DateTimeRange right)
+        public static bool operator >(DateTimeOffsetRange left, DateTimeOffsetRange right)
         {
             return left.Duration > right.Duration;
         }
@@ -222,7 +240,7 @@ namespace Cencora.Common.Core
         /// <param name="left">The left range.</param>
         /// <param name="right">The right range.</param>
         /// <returns><c>true</c> if the duration of the left range is less than or equal to the duration of the right range; otherwise, <c>false</c>.</returns>
-        public static bool operator <=(DateTimeRange left, DateTimeRange right)
+        public static bool operator <=(DateTimeOffsetRange left, DateTimeOffsetRange right)
         {
             return left.Duration <= right.Duration;
         }
@@ -233,40 +251,40 @@ namespace Cencora.Common.Core
         /// <param name="left">The left range.</param>
         /// <param name="right">The right range.</param>
         /// <returns><c>true</c> if the duration of the left range is greater than or equal to the duration of the right range; otherwise, <c>false</c>.</returns>
-        public static bool operator >=(DateTimeRange left, DateTimeRange right)
+        public static bool operator >=(DateTimeOffsetRange left, DateTimeOffsetRange right)
         {
             return left.Duration >= right.Duration;
         }
 
         /// <summary>
-        /// Determines whether a <see cref="DateTimeOffset"/> value is contained within a <see cref="DateTimeRange"/>.
+        /// Determines whether a <see cref="DateTimeOffset"/> value is contained within a <see cref="DateTimeOffsetRange"/>.
         /// </summary>
         /// <param name="range">The range.</param>
         /// <param name="value">The value.</param>
         /// <returns><c>true</c> if the value is contained within the range; otherwise, <c>false</c>.</returns>
-        public static bool Contains(DateTimeRange range, DateTimeOffset value)
+        public static bool Contains(DateTimeOffsetRange range, DateTimeOffset value)
         {
             return range.Start <= value && range.End >= value;
         }
 
         /// <summary>
-        /// Determines whether a <see cref="DateTimeRange"/> is contained within another <see cref="DateTimeRange"/>.
+        /// Determines whether a <see cref="DateTimeOffsetRange"/> is contained within another <see cref="DateTimeOffsetRange"/>.
         /// </summary>
         /// <param name="range">The range.</param>
         /// <param name="other">The other range.</param>
         /// <returns><c>true</c> if the other range is contained within the range; otherwise, <c>false</c>.</returns>
-        public static bool Contains(DateTimeRange range, DateTimeRange other)
+        public static bool Contains(DateTimeOffsetRange range, DateTimeOffsetRange other)
         {
             return range.Start <= other.Start && range.End >= other.End;
         }
 
         /// <summary>
-        /// Determines whether two <see cref="DateTimeRange"/> instances overlap.
+        /// Determines whether two <see cref="DateTimeOffsetRange"/> instances overlap.
         /// </summary>
         /// <param name="firstRange">The first range.</param>
         /// <param name="secondRange">The second range.</param>
         /// <returns><c>true</c> if the ranges overlap; otherwise, <c>false</c>.</returns>
-        public static bool Overlaps(DateTimeRange firstRange, DateTimeRange secondRange, TimeSpan minimumOverlap)
+        public static bool Overlaps(DateTimeOffsetRange firstRange, DateTimeOffsetRange secondRange, TimeSpan minimumOverlap)
         {
             // Calculate the actual overlap duration
             DateTimeOffset overlapStart = firstRange.Start > secondRange.Start ? firstRange.Start : secondRange.Start;
@@ -279,24 +297,24 @@ namespace Cencora.Common.Core
         }
 
         /// <summary>
-        /// Determines whether two <see cref="DateTimeRange"/> instances overlap.
+        /// Determines whether two <see cref="DateTimeOffsetRange"/> instances overlap.
         /// </summary>
         /// <param name="firstRange">The first range.</param>
         /// <param name="secondRange">The second range.</param>
         /// <returns><c>true</c> if the ranges overlap; otherwise, <c>false</c>.</returns>
-        public static bool Overlaps(DateTimeRange firstRange, DateTimeRange secondRange)
+        public static bool Overlaps(DateTimeOffsetRange firstRange, DateTimeOffsetRange secondRange)
         {
             return Overlaps(firstRange, secondRange, TimeSpan.Zero);
         }
 
         /// <summary>
-        /// Calculates the intersection of two <see cref="DateTimeRange"/> instances.
+        /// Calculates the intersection of two <see cref="DateTimeOffsetRange"/> instances.
         /// </summary>
         /// <param name="firstRange">The first range.</param>
         /// <param name="secondRange">The second range.</param>
         /// <param name="minimumOverlap">The minimum overlap required for the ranges to be considered overlapping.</param>
         /// <returns>The intersection of the two ranges, or <c>null</c> if the ranges do not overlap.</returns>
-        public static DateTimeRange? Intersection(DateTimeRange firstRange, DateTimeRange secondRange, TimeSpan minimumOverlap)
+        public static DateTimeOffsetRange? Intersection(DateTimeOffsetRange firstRange, DateTimeOffsetRange secondRange, TimeSpan minimumOverlap)
         {
             if (!Overlaps(firstRange, secondRange, minimumOverlap))
             {
@@ -306,7 +324,7 @@ namespace Cencora.Common.Core
             DateTimeOffset overlapStart = firstRange.Start > secondRange.Start ? firstRange.Start : secondRange.Start;
             DateTimeOffset overlapEnd = firstRange.End < secondRange.End ? firstRange.End : secondRange.End;
 
-            return new DateTimeRange
+            return new DateTimeOffsetRange
             {
                 Start = overlapStart,
                 End = overlapEnd
@@ -314,12 +332,12 @@ namespace Cencora.Common.Core
         }
 
         /// <summary>
-        /// Calculates the intersection of two <see cref="DateTimeRange"/> instances.
+        /// Calculates the intersection of two <see cref="DateTimeOffsetRange"/> instances.
         /// </summary>
         /// <param name="firstRange">The first range.</param>
         /// <param name="secondRange">The second range.</param>
         /// <returns>The intersection of the two ranges, or <c>null</c> if the ranges do not overlap.</returns>
-        public static DateTimeRange? Intersection(DateTimeRange firstRange, DateTimeRange secondRange)
+        public static DateTimeOffsetRange? Intersection(DateTimeOffsetRange firstRange, DateTimeOffsetRange secondRange)
         {
             return Intersection(firstRange, secondRange, TimeSpan.Zero);
         }
