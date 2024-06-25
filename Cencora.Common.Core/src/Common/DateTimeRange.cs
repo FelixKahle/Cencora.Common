@@ -81,6 +81,48 @@ namespace Cencora.Common.Core
         }
 
         /// <summary>
+        /// Converts the range to a new <see cref="DateTimeRange"/> instance
+        /// with the start and end values converted to universal time.
+        /// </summary>
+        /// <returns>A new <see cref="DateTimeRange"/> instance with the start and end values converted to universal time.</returns>
+        public DateTimeRange ToUniversalTime()
+        {
+            return new DateTimeRange
+            {
+                Start = Start.ToUniversalTime(),
+                End = End.ToUniversalTime()
+            };
+        }
+
+        /// <summary>
+        /// Converts the range to a new <see cref="DateTimeRange"/> instance
+        /// with the start and end values converted to local time.
+        /// </summary>
+        /// <returns>A new <see cref="DateTimeRange"/> instance with the start and end values converted to local time.</returns>
+        public DateTimeRange ToLocalTime()
+        {
+            return new DateTimeRange
+            {
+                Start = Start.ToLocalTime(),
+                End = End.ToLocalTime()
+            };
+        }
+
+        /// <summary>
+        /// Adds a time span to the range.
+        /// </summary>
+        /// <param name="timeSpan">The time span to add.</param>
+        /// <returns>A new <see cref="DateTimeRange"/> instance with the time span added to the start and end values.</returns>
+        public DateTimeRange Add(TimeSpan timeSpan)
+        {
+            return new DateTimeRange
+            {
+                Start = Start.Add(timeSpan),
+                End = End.Add(timeSpan)
+            };
+        }
+
+        /// <summary>
         /// Determines whether the range overlaps with another range.
         /// </summary>
         /// <param name="other">The other range.</param>
