@@ -55,6 +55,18 @@ namespace Cencora.Common.Core.Tests
         }
 
         [Fact]
+        public void ToUniversalTime_WithLocalTime_ShouldReturnUniversalTime()
+        {
+            var start = DateTime.Today.AddHours(6);
+            var end = DateTime.Today.AddHours(12);
+
+            var dateTimeRange = new DateTimeRange(start, end);
+
+            Assert.Equal(start.ToUniversalTime(), dateTimeRange.Start.ToUniversalTime());
+            Assert.Equal(end.ToUniversalTime(), dateTimeRange.End.ToUniversalTime());
+        }
+
+        [Fact]
         public void Duration_WithDifferentStartAndEnd_ShouldReturnDuration()
         {
             var start = new DateTime(2024, 1, 1);
