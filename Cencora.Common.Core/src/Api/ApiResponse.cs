@@ -31,6 +31,11 @@ namespace Cencora.Common
         public int StatusCode => _statusCode;
 
         /// <summary>
+        /// Gets the error message of the response.
+        /// </summary>
+        public string? ErrorMessage => _errorMessage;
+
+        /// <summary>
         /// Determines whether the response is successful.
         /// </summary>
         public bool IsSuccess => HttpUtils.IsSuccessStatusCode(_statusCode);
@@ -417,6 +422,11 @@ namespace Cencora.Common
                 return _payload;
             }
         }
+
+        /// <summary>
+        /// Gets the error message of the response.
+        /// </summary>
+        public string? ErrorMessage => _errorMessage;
 
         /// <summary>
         /// Matches the response against the specified actions.
