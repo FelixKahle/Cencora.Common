@@ -402,6 +402,23 @@ namespace Cencora.Common
         }
 
         /// <summary>
+        /// Gets the payload of the response.
+        /// </summary>
+        /// <returns>The payload of the response.</returns>
+        /// <exception cref="InvalidOperationException">The payload is <c>null</c>.</exception>
+        public T Value
+        {
+            get
+            {
+                if (_payload == null)
+                {
+                    throw new InvalidOperationException("The payload is null.");
+                }
+                return _payload;
+            }
+        }
+
+        /// <summary>
         /// Matches the response against the specified actions.
         /// </summary>
         /// <param name="success">The action to execute if the response is successful.</param>
