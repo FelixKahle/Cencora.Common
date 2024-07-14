@@ -6,21 +6,18 @@ using Cencora.Common.Measurements;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace Cencora.Common.Swagger.Measurements
+namespace Cencora.Common.Swagger.Measurements;
+
+public class VolumeSchemaFilter : ISchemaFilter
 {
-    public class VolumeSchemaFilter : ISchemaFilter
+    public void Apply(OpenApiSchema schema, SchemaFilterContext context)
     {
-        public void Apply(OpenApiSchema schema, SchemaFilterContext context)
+        if (context.Type != typeof(Volume)) return;
+        schema.Type = "object";
+        schema.Properties = new Dictionary<string, OpenApiSchema>
         {
-            if (context.Type == typeof(Volume))
-            {
-                schema.Type = "object";
-                schema.Properties = new Dictionary<string, OpenApiSchema>
-                {
-                    { "value", new OpenApiSchema { Type = "number", Format = "double" } },
-                    { "unit", new OpenApiSchema { Type = "string" } }
-                };
-            }
-        }
+            { "value", new OpenApiSchema { Type = "number", Format = "double" } },
+            { "unit", new OpenApiSchema { Type = "string" } }
+        };
     }
 }
