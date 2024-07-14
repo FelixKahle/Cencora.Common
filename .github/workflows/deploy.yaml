@@ -67,4 +67,4 @@ jobs:
         run: dotnet nuget push Cencora.Common/bin/Release/*.nupkg --no-symbols --api-key ${{secrets.GITHUB_TOKEN}} --source https://nuget.pkg.github.com/${{github.repository_owner}}/index.json
 
       - name: Publish Cencora.Common.Swagger NuGet package
-        run: dotnet nuget push Cencora.Common.Core.Swagger/bin/Release/*.nupkg --no-symbols --api-key ${{secrets.GITHUB_TOKEN}} --source https://nuget.pkg.github.com/${{github.repository_owner}}/index.json
+        run: dotnet nuget push Cencora.Common.Swagger/bin/Release/*.nupkg --no-symbols --api-key ${{secrets.GITHUB_TOKEN}} --source https://nuget.pkg.github.com/${{github.repository_owner}}/index.json
