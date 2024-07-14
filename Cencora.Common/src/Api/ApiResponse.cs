@@ -81,7 +81,7 @@ public readonly struct ApiResponse : IEquatable<ApiResponse>
     /// <returns>A new instance of the <see cref="ApiResponse"/> struct that represents an error response.</returns>
     /// <exception cref="ArgumentOutOfRangeException">The status code is not a valid HTTP status code.</exception>
     /// <exception cref="ArgumentOutOfRangeException">The status code indicates success.</exception>
-    public static ApiResponse Error(int statusCode, string errorMessage)
+    public static ApiResponse Error(int statusCode, string? errorMessage)
     {
         if (HttpUtils.IsSuccessStatusCode(statusCode))
         {
@@ -99,7 +99,7 @@ public readonly struct ApiResponse : IEquatable<ApiResponse>
     /// <returns>A new instance of the <see cref="ApiResponse"/> struct that represents an error response.</returns>
     /// <exception cref="ArgumentOutOfRangeException">The status code is not a valid HTTP status code.</exception>
     /// <exception cref="ArgumentOutOfRangeException">The status code indicates success.</exception>
-    public static ApiResponse Error(HttpStatusCode statusCode, string errorMessage)
+    public static ApiResponse Error(HttpStatusCode statusCode, string? errorMessage)
     {
         return Error(HttpUtils.HttpStatusCodeToInt(statusCode), errorMessage);
     }
@@ -111,7 +111,7 @@ public readonly struct ApiResponse : IEquatable<ApiResponse>
     /// <param name="error">The action to execute if the response is an error.</param>
     /// <exception cref="ArgumentNullException">The success action is <c>null</c>.</exception>
     /// <exception cref="ArgumentNullException">The error action is <c>null</c>.</exception>
-    public void Match(Action<int> success, Action<int, string> error)
+    public void Match(Action<int> success, Action<int, string?> error)
     {
         ArgumentNullException.ThrowIfNull(success);
         ArgumentNullException.ThrowIfNull(error);
@@ -135,12 +135,12 @@ public readonly struct ApiResponse : IEquatable<ApiResponse>
     /// <returns>The result of the executed function.</returns>
     /// <exception cref="ArgumentNullException">The success function is <c>null</c>.</exception>
     /// <exception cref="ArgumentNullException">The error function is <c>null</c>.</exception>
-    public TR Match<TR>(Func<int, TR> success, Func<int, string, TR> error)
+    public TR Match<TR>(Func<int, TR> success, Func<int, string?, TR> error)
     {
         ArgumentNullException.ThrowIfNull(success);
         ArgumentNullException.ThrowIfNull(error);
 
-        return IsSuccess ? success(StatusCode) : error(StatusCode, ErrorMessage ?? string.Empty);
+        return IsSuccess ? success(StatusCode) : error(StatusCode, ErrorMessage);
     }
 
     /// <inheritdoc/>
@@ -318,7 +318,7 @@ public readonly struct ApiResponse<T> : IEquatable<ApiResponse<T>>
     /// <returns>A new instance of the <see cref="ApiResponse{T}"/> struct that represents an error response.</returns>
     /// <exception cref="ArgumentOutOfRangeException">The status code is not a valid HTTP status code.</exception>
     /// <exception cref="ArgumentOutOfRangeException">The status code indicates success.</exception>
-    public static ApiResponse<T> Error(int statusCode, string errorMessage)
+    public static ApiResponse<T> Error(int statusCode, string? errorMessage)
     {
         if (HttpUtils.IsSuccessStatusCode(statusCode))
         {
@@ -336,7 +336,7 @@ public readonly struct ApiResponse<T> : IEquatable<ApiResponse<T>>
     /// <returns>A new instance of the <see cref="ApiResponse{T}"/> struct that represents an error response.</returns>
     /// <exception cref="ArgumentOutOfRangeException">The status code is not a valid HTTP status code.</exception>
     /// <exception cref="ArgumentOutOfRangeException">The status code indicates success.</exception>
-    public static ApiResponse<T> Error(HttpStatusCode statusCode, string errorMessage)
+    public static ApiResponse<T> Error(HttpStatusCode statusCode, string? errorMessage)
     {
         return Error(HttpUtils.HttpStatusCodeToInt(statusCode), errorMessage);
     }
@@ -367,7 +367,7 @@ public readonly struct ApiResponse<T> : IEquatable<ApiResponse<T>>
     /// <param name="error">The action to execute if the response is an error.</param>
     /// <exception cref="ArgumentNullException">The success action is <c>null</c>.</exception>
     /// <exception cref="ArgumentNullException">The error action is <c>null</c>.</exception>
-    public void Match(Action<T, int> success, Action<int, string> error)
+    public void Match(Action<T, int> success, Action<int, string?> error)
     {
         ArgumentNullException.ThrowIfNull(success);
         ArgumentNullException.ThrowIfNull(error);
@@ -382,7 +382,7 @@ public readonly struct ApiResponse<T> : IEquatable<ApiResponse<T>>
         }
         else
         {
-            error(StatusCode, ErrorMessage ?? string.Empty);
+            error(StatusCode, ErrorMessage);
         }
     }
 
@@ -396,12 +396,12 @@ public readonly struct ApiResponse<T> : IEquatable<ApiResponse<T>>
     /// <exception cref="ArgumentNullException">The success function is <c>null</c>.</exception>
     /// <exception cref="ArgumentNullException">The error function is <c>null</c>.</exception>
     /// <exception cref="InvalidOperationException">The payload is <c>null</c>.</exception>
-    public TR Match<TR>(Func<T, int, TR> success, Func<int, string, TR> error)
+    public TR Match<TR>(Func<T, int, TR> success, Func<int, string?, TR> error)
     {
         ArgumentNullException.ThrowIfNull(success);
         ArgumentNullException.ThrowIfNull(error);
 
-        if (!IsSuccess) return error(StatusCode, ErrorMessage ?? string.Empty);
+        if (!IsSuccess) return error(StatusCode, ErrorMessage);
         // Should never happen, because IsSuccess checks for _payload != null
         // But we need to check it here to satisfy the compiler and to be sure.
         if (_payload == null)
