@@ -1,0 +1,70 @@
+# This workflow will buil the .NET code, run the tests, and deploy the code
+# as a nuget package to the GitHub package registry on every push to the main branch
+
+name: Deploy
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  test:
+    name: test
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Build
+      run: dotnet build --no-restore
+    - name: Test
+      run: dotnet test --no-build --verbosity normal
+  
+  deploy:
+    name: deploy
+    needs: test
+
+    permissions:
+      contents: read
+      packages: write
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+          source-url: https://nuget.pkg.github.com/${{github.repository_owner}}/index.json
+        env:
+          NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+
+      - name: Restore dependencies
+        run: dotnet restore
+        env:
+          NUGET_AUTH_TOKEN: ${{ github.token }}
+        
+      - name: Build
+        run: dotnet build --configuration Release --no-restore
+
+      - name: Pack
+        run: dotnet pack --no-build --configuration Release
+
+      - name: Create Cencora.Common NuGet package
+        run: dotnet pack --configuration Release Cencora.Common/Cencora.Common.csproj
+
+      - name: Create Cencora.Common.Swagger NuGet package
+        run: dotnet pack --configuration Release Cencora.Common.Swagger/Cencora.Common.Swagger.csproj
+
+      - name: Publish Cencora.Common NuGet package
+        run: dotnet nuget push Cencora.Common/bin/Release/*.nupkg --no-symbols --api-key ${{secrets.GITHUB_TOKEN}} --source https://nuget.pkg.github.com/${{github.repository_owner}}/index.json
+
+      - name: Publish Cencora.Common.Swagger NuGet package
+        run: dotnet nuget push Cencora.Common.Core.Swagger/bin/Release/*.nupkg --no-symbols --api-key ${{secrets.GITHUB_TOKEN}} --source https://nuget.pkg.github.com/${{github.repository_owner}}/index.json
