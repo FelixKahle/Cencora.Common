@@ -16,13 +16,13 @@ public struct DateTimeOffsetRange : IEquatable<DateTimeOffsetRange>
     /// Gets or sets the start of the range.
     /// </summary>
     [JsonInclude]
-    public DateTimeOffset Start { get; set; }
+    public required DateTimeOffset Start { get; set; }
 
     /// <summary>
     /// Gets or sets the end of the range.
     /// </summary>
     [JsonInclude]
-    public DateTimeOffset End { get; set; }
+    public required DateTimeOffset End { get; set; }
 
     /// <summary>
     /// Gets a value indicating whether the range is a single point in time.
@@ -57,19 +57,16 @@ public struct DateTimeOffsetRange : IEquatable<DateTimeOffsetRange>
     /// <summary>
     /// Initializes a new instance of the <see cref="DateTimeOffsetRange"/> struct.
     /// </summary>
-    public DateTimeOffsetRange()
-    {
-        Start = DateTimeOffset.MinValue;
-        End = DateTimeOffset.MaxValue;
-    }
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="DateTimeOffsetRange"/> struct.
-    /// </summary>
     /// <param name="start">The start of the range.</param>
     /// <param name="end">The end of the range.</param>
+    /// <exception cref="ArgumentException">The start of the range must be less than or equal to the end of the range.</exception>
     public DateTimeOffsetRange(DateTimeOffset start, DateTimeOffset end)
     {
+        if (start > end)
+        {
+            throw new ArgumentException("The start of the range must be less than or equal to the end of the range.", nameof(start));
+        }
+        
         Start = start;
         End = end;
     }

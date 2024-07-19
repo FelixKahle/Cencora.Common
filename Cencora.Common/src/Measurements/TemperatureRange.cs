@@ -15,13 +15,13 @@ public struct TemperatureRange : IEquatable<TemperatureRange>
     /// Gets or sets the minimum temperature of the range.
     /// </summary>
     [JsonInclude]
-    public Temperature Min { get; set; }
+    public required Temperature Min { get; set; }
 
     /// <summary>
     /// Gets or sets the maximum temperature of the range.
     /// </summary>
     [JsonInclude]
-    public Temperature Max { get; set; }
+    public required Temperature Max { get; set; }
 
     /// <summary>
     /// Gets a value indicating whether the range is a single temperature.
@@ -34,15 +34,6 @@ public struct TemperatureRange : IEquatable<TemperatureRange>
     /// Ranges from <see cref="Temperature.MinValue"/> to <see cref="Temperature.MaxValue"/>.
     /// </summary>
     public static readonly TemperatureRange Default = new() { Min = Temperature.MinValue, Max = Temperature.MaxValue };
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="TemperatureRange"/> struct.
-    /// </summary>
-    public TemperatureRange()
-    {
-        Min = Temperature.MinValue;
-        Max = Temperature.MaxValue;
-    }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="TemperatureRange"/> struct.
