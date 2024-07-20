@@ -18,6 +18,7 @@ public class ApiResponseConverter : JsonConverter<ApiResponse>
         var namingPolicy = options.PropertyNamingPolicy;
         var statusPropertyName = namingPolicy?.ConvertName("StatusCode") ?? "StatusCode";
         var errorMessagePropertyName = namingPolicy?.ConvertName("ErrorMessage") ?? "ErrorMessage";
+        var comparison = options.PropertyNameCaseInsensitive ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal;
 
         if (reader.TokenType != JsonTokenType.StartObject)
         {
@@ -43,12 +44,12 @@ public class ApiResponseConverter : JsonConverter<ApiResponse>
 
             var propertyName = reader.GetString() ?? throw new JsonException("Expected property name");
 
-            if (propertyName == statusPropertyName)
+            if (string.Equals(propertyName, statusPropertyName, comparison))
             {
                 reader.Read();
                 statusCode = reader.GetInt32();
             }
-            else if (propertyName == errorMessagePropertyName)
+            else if (string.Equals(propertyName, errorMessagePropertyName, comparison))
             {
                 reader.Read();
                 errorMessage = reader.GetString();
@@ -137,6 +138,7 @@ public class PayloadApiResponseConverter<T> : JsonConverter<ApiResponse<T>>
         var statusPropertyName = namingPolicy?.ConvertName("StatusCode") ?? "StatusCode";
         var errorMessagePropertyName = namingPolicy?.ConvertName("ErrorMessage") ?? "ErrorMessage";
         var payloadPropertyName = namingPolicy?.ConvertName("Payload") ?? "Payload";
+        var comparison = options.PropertyNameCaseInsensitive ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal;
 
         if (reader.TokenType != JsonTokenType.StartObject)
         {
@@ -168,17 +170,17 @@ public class PayloadApiResponseConverter<T> : JsonConverter<ApiResponse<T>>
 
             var propertyName = reader.GetString() ?? throw new JsonException("Expected property name");
 
-            if (propertyName == statusPropertyName)
+            if (string.Equals(propertyName, statusPropertyName, comparison))
             {
                 reader.Read();
                 statusCode = reader.GetInt32();
             }
-            else if (propertyName == errorMessagePropertyName)
+            else if (string.Equals(propertyName, errorMessagePropertyName, comparison))
             {
                 reader.Read();
                 errorMessage = reader.GetString();
             }
-            else if (propertyName == payloadPropertyName)
+            else if (string.Equals(propertyName, payloadPropertyName, comparison))
             {
                 reader.Read();
                 payload = JsonSerializer.Deserialize<T>(ref reader, options);

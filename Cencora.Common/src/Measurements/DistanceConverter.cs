@@ -19,6 +19,7 @@ public class DistanceConverter : JsonConverter<Distance>
         var namingPolicy = options.PropertyNamingPolicy;
         var valuePropertyName = namingPolicy?.ConvertName("Value") ?? "Value";
         var unitPropertyName = namingPolicy?.ConvertName("Unit") ?? "Unit";
+        var comparison = options.PropertyNameCaseInsensitive ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal;
 
         if (reader.TokenType != JsonTokenType.StartObject)
         {
@@ -42,12 +43,12 @@ public class DistanceConverter : JsonConverter<Distance>
 
             var propertyName = reader.GetString() ?? throw new JsonException("Expected property name");
 
-            if (propertyName == valuePropertyName)
+            if (string.Equals(propertyName, valuePropertyName, comparison))
             {
                 reader.Read();
                 value = reader.GetDouble();
             }
-            else if (propertyName == unitPropertyName)
+            else if (string.Equals(propertyName, unitPropertyName, comparison))
             {
                 reader.Read();
                 unit = DistanceUnitExtensions.FromString(reader.GetString() ?? throw new JsonException("Expected unit"));
