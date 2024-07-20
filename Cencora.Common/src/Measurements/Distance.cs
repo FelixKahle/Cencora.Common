@@ -122,6 +122,7 @@ public struct Distance : IEquatable<Distance>, IFormattable, IComparable<Distanc
     public static readonly Distance Zero = new(0, DistanceUnit.Meter);
     public static readonly Distance MinValue = new(0, DistanceUnit.Meter);
     public static readonly Distance MaxValue = new(double.MaxValue, DistanceUnit.Meter);
+    public static readonly Distance Infinity = new(double.PositiveInfinity, DistanceUnit.Meter);
 
     public static Distance FromMillimeters(double value) => new(value, DistanceUnit.Millimeter);
     public static Distance FromCentimeters(double value) => new(value, DistanceUnit.Centimeter);
@@ -397,73 +398,5 @@ public struct Distance : IEquatable<Distance>, IFormattable, IComparable<Distanc
     {
         var value = Math.Clamp(left.Meters - right.Meters, 0, double.MaxValue);
         return new Distance(value, DistanceUnit.Meter);
-    }
-}
-
-/// <summary>
-/// Provides a custom JSON converter for the <see cref="Distance"/> struct.
-/// Saves the distance value in meters.
-/// </summary>
-public class DistanceConverter : JsonConverter<Distance>
-{
-    /// <inheritdoc/>
-    public override Distance Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
-    {
-        var namingPolicy = options.PropertyNamingPolicy;
-        var valuePropertyName = namingPolicy?.ConvertName("Value") ?? "Value";
-        var unitPropertyName = namingPolicy?.ConvertName("Unit") ?? "Unit";
-
-        if (reader.TokenType != JsonTokenType.StartObject)
-        {
-            throw new JsonException("Expected start of object");
-        }
-
-        double value = 0;
-        var unit = DistanceUnit.Meter;
-
-        while (reader.Read())
-        {
-            if (reader.TokenType == JsonTokenType.EndObject)
-            {
-                return new Distance(value, unit);
-            }
-
-            if (reader.TokenType != JsonTokenType.PropertyName)
-            {
-                throw new JsonException("Expected property name");
-            }
-
-            var propertyName = reader.GetString() ?? throw new JsonException("Expected property name");
-
-            if (propertyName == valuePropertyName)
-            {
-                reader.Read();
-                value = reader.GetDouble();
-            }
-            else if (propertyName == unitPropertyName)
-            {
-                reader.Read();
-                unit = DistanceUnitExtensions.FromString(reader.GetString() ?? throw new JsonException("Expected unit"));
-            }
-            else
-            {
-                throw new JsonException($"Unknown property: {propertyName}");
-            }
-        }
-
-        throw new JsonException("Unexpected end of JSON");
-    }
-
-    /// <inheritdoc/>
-    public override void Write(Utf8JsonWriter writer, Distance value, JsonSerializerOptions options)
-    {
-        var namingPolicy = options.PropertyNamingPolicy;
-        var valuePropertyName = namingPolicy?.ConvertName("Value") ?? "Value";
-        var unitPropertyName = namingPolicy?.ConvertName("Unit") ?? "Unit";
-
-        writer.WriteStartObject();
-        writer.WriteNumber(valuePropertyName, value.Meters);
-        writer.WriteString(unitPropertyName, DistanceUnit.Meter.ToUnitString());
-        writer.WriteEndObject();
     }
 }

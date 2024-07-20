@@ -125,6 +125,7 @@ public struct Weight : IComparable, IComparable<Weight>, IEquatable<Weight>, IFo
     public static readonly Weight Zero = new(0, WeightUnit.Gram);
     public static readonly Weight MinValue = new(0, WeightUnit.Gram);
     public static readonly Weight MaxValue = new(double.MaxValue, WeightUnit.Gram);
+    public static readonly Weight Infinity = new(double.PositiveInfinity, WeightUnit.Gram);
 
     public static Weight FromMicrograms(double value) => new(value, WeightUnit.Microgram);
     public static Weight FromMilligrams(double value) => new(value, WeightUnit.Milligram);
@@ -408,73 +409,5 @@ public struct Weight : IComparable, IComparable<Weight>, IEquatable<Weight>, IFo
     {
         var value = Math.Clamp(left.Grams - right.Grams, 0, double.MaxValue);
         return new Weight(value, WeightUnit.Gram);
-    }
-}
-
-/// <summary>
-/// Provides a custom JSON converter for the <see cref="Weight"/> struct.
-/// Saves the weight in grams.
-/// </summary>
-public class WeightConverter : JsonConverter<Weight>
-{
-    /// <inheritdoc/>
-    public override Weight Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
-    {
-        var namingPolicy = options.PropertyNamingPolicy;
-        var valuePropertyName = namingPolicy?.ConvertName("Value") ?? "Value";
-        var unitPropertyName = namingPolicy?.ConvertName("Unit") ?? "Unit";
-
-        if (reader.TokenType != JsonTokenType.StartObject)
-        {
-            throw new JsonException("Expected start of object");
-        }
-
-        double value = 0;
-        var unit = WeightUnit.Gram;
-
-        while (reader.Read())
-        {
-            if (reader.TokenType == JsonTokenType.EndObject)
-            {
-                return new Weight(value, unit);
-            }
-
-            if (reader.TokenType != JsonTokenType.PropertyName)
-            {
-                throw new JsonException("Expected property name");
-            }
-
-            var propertyName = reader.GetString() ?? throw new JsonException("Expected property name");
-
-            if (propertyName == valuePropertyName)
-            {
-                reader.Read();
-                value = reader.GetDouble();
-            }
-            else if (propertyName == unitPropertyName)
-            {
-                reader.Read();
-                unit = WeightUnitExtensions.FromString(reader.GetString() ?? throw new JsonException("Expected unit"));
-            }
-            else
-            {
-                throw new JsonException($"Unknown property: {propertyName}");
-            }
-        }
-
-        throw new JsonException("Unexpected end of JSON");
-    }
-
-    /// <inheritdoc/>
-    public override void Write(Utf8JsonWriter writer, Weight value, JsonSerializerOptions options)
-    {
-        var namingPolicy = options.PropertyNamingPolicy;
-        var valuePropertyName = namingPolicy?.ConvertName("Value") ?? "Value";
-        var unitPropertyName = namingPolicy?.ConvertName("Unit") ?? "Unit";
-
-        writer.WriteStartObject();
-        writer.WriteNumber(valuePropertyName, value.Grams);
-        writer.WriteString(unitPropertyName, WeightUnit.Gram.ToUnitString());
-        writer.WriteEndObject();
     }
 }
