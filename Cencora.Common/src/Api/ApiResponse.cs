@@ -3,7 +3,6 @@
 // Written by Felix Kahle, A123234, felix.kahle@worldcourier.de
 
 using System.Net;
-using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace Cencora.Common.Api;
