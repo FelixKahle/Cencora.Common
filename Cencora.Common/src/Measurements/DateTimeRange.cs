@@ -25,6 +25,15 @@ public struct DateTimeRange : IEquatable<DateTimeRange>
     public required DateTime End { get; set; }
 
     /// <summary>
+    /// Represents a range that spans over the current day.
+    /// </summary>
+    public static readonly DateTimeRange Today = new DateTimeRange
+    {
+        Start = DateTime.Today,
+        End = DateTime.Today.AddDays(1)
+    };
+
+    /// <summary>
     /// Gets a value indicating whether the range is a single point in time.
     /// </summary>
     [JsonInclude]
